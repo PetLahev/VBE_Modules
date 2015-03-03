@@ -77,7 +77,7 @@ namespace VBEModules.Controls.CommandBars
                 // Add a new AddIn menu to VBE toolbar 
                 _addInMenu = (CommandBarPopup)menuCommandBar.Controls.Add(MsoControlType.msoControlPopup, System.Type.Missing, System.Type.Missing, position, true);
                 _addInMenu.CommandBar.Name = ADDIN_MENU_NAME;
-                _addInMenu.Caption = "VBE Modules";
+                _addInMenu.Caption = "V&BE Modules";
                 _addInMenu.Visible = true;
 
                 IList<IMenuItem> items = new List<IMenuItem>();

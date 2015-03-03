@@ -11,27 +11,47 @@ namespace VBEModules.Controls.CommandBars
     /// <summary>
     /// Displays the 'About' dialog
     /// </summary>
-    public class AboutCommand : ICommand
+    public class AboutCommand : ICommand, IDisposable
     {
         private ElementHost ctrlHost;
         private Forms.About wpfAbout;
+        private sysForms.Form frmAbout;
 
+        /// <summary>
+        /// Displays the About form of the AddIn
+        /// </summary>
         public void Execute()
         {
             ctrlHost = new ElementHost();
-            ctrlHost.Dock = DockStyle.Fill;
-
-            sysForms.Form frm = new sysForms.Form();
-            frm.StartPosition = FormStartPosition.CenterScreen;
-            frm.Height = 500;
-            frm.Width = 500;
-            frm.Controls.Add(ctrlHost);
             
+            frmAbout = new sysForms.Form();
+            frmAbout.Controls.Add(ctrlHost);
+            
+
             wpfAbout = new Forms.About();
             wpfAbout.InitializeComponent();
+            wpfAbout.OKPressed += new EventHandler(wpfAbout_OKPressed);
             ctrlHost.Child = wpfAbout;
+            ctrlHost.Dock = DockStyle.Fill;
+            
+            frmAbout.ControlBox = false;
+            frmAbout.ShowIcon = false;
+            frmAbout.FormBorderStyle = FormBorderStyle.None;
+            frmAbout.Height = 183;
+            frmAbout.Width = 310;
+            frmAbout.StartPosition = FormStartPosition.CenterScreen;
 
-            frm.ShowDialog();
+            frmAbout.ShowDialog();
+        }
+
+        void wpfAbout_OKPressed(object sender, EventArgs e)
+        {
+            frmAbout.Close();            
+        }
+
+        public void Dispose()
+        {
+            ctrlHost.Dispose();            
         }
     }
 }
