@@ -5,6 +5,7 @@ using System.Text;
 using VBEModules.Interop;
 using VBEModules.Interop.VBAExtensibility;
 using VBEModules.Interop.Extensibility;
+using VBEModules.Business;
 using System.Runtime.InteropServices;
 using Microsoft.Office.Core;
 

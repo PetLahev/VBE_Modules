@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace VBEModules.Controls.CommandBars
+namespace VBEModules.Business
 {
     /// <summary>
     ///  Defines set of method for a Command object

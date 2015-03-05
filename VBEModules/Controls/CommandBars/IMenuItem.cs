@@ -15,6 +15,6 @@ namespace VBEModules.Controls.CommandBars
         int IconId { get; set; }
         double Order { get; set; }
         bool HasSeparator { get; set; }
-        ICommand Command { get; set; }
+        Business.ICommand Command { get; set; }
     }
 }

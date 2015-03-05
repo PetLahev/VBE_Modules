@@ -12,7 +12,7 @@ namespace VBEModules.Controls.CommandBars
         public int IconId { get; set; }
         public bool HasSeparator { get; set; }
         public double Order { get; set; }
-        public ICommand Command { get; set; }
+        public Business.ICommand Command { get; set; }
       
     }
 }

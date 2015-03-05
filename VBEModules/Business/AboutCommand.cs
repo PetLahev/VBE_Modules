@@ -6,19 +6,20 @@ using sysForms = System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using System.Windows.Forms;
 
-namespace VBEModules.Controls.CommandBars
+namespace VBEModules.Business
 {
     /// <summary>
-    /// Displays the 'About' dialog
+    /// Responsible for displaying the 'About' dialog
     /// </summary>
     public class AboutCommand : ICommand, IDisposable
     {
         private ElementHost ctrlHost;
-        private Forms.About wpfAbout;
+        private Business.About wpfAbout;
         private sysForms.Form frmAbout;
 
         /// <summary>
         /// Displays the About form of the AddIn
+        /// I didn't bother with a receiver for such simple job
         /// </summary>
         public void Execute()
         {
@@ -28,7 +29,7 @@ namespace VBEModules.Controls.CommandBars
             frmAbout.Controls.Add(ctrlHost);
             
 
-            wpfAbout = new Forms.About();
+            wpfAbout = new Business.About();
             wpfAbout.InitializeComponent();
             wpfAbout.OKPressed += new EventHandler(wpfAbout_OKPressed);
             ctrlHost.Child = wpfAbout;

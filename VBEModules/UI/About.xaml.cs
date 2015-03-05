@@ -13,7 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 
-namespace VBEModules.Forms
+namespace VBEModules.Business
 {
     /// <summary>
     /// Interaction logic for About.xaml
