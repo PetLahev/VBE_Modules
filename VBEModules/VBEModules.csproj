@@ -8,8 +8,8 @@
     <ProjectGuid>{5F3CC852-C11B-41A9-ABE4-F432B6AD8628}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VBEModules</RootNamespace>
-    <AssemblyName>VBEModules</AssemblyName>
+    <RootNamespace>VbeComponents</RootNamespace>
+    <AssemblyName>VbeComponents</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -34,13 +34,14 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>VBEModules.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>VbeComponents.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -48,31 +49,40 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="VBEModules.Interop.Extensibility, Version=1.0.0.0, Culture=neutral, PublicKeyToken=649a0b19b3f36f90, processorArchitecture=MSIL">
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="VBEModules.Interop.Office12, Version=1.0.0.0, Culture=neutral, PublicKeyToken=649a0b19b3f36f90, processorArchitecture=MSIL">
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="VBEModules.Interop.Stdole, Version=1.0.0.0, Culture=neutral, PublicKeyToken=649a0b19b3f36f90, processorArchitecture=MSIL">
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="VBEModules.Interop.VBAExtensibility, Version=1.0.0.0, Culture=neutral, PublicKeyToken=649a0b19b3f36f90, processorArchitecture=MSIL">
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\AboutCommand.cs" />
-    <Compile Include="Business\Export\View\ExportItemsView.xaml.cs">
-      <DependentUpon>ExportItemsView.xaml</DependentUpon>
+    <Compile Include="Business\Controls\ISelectionPanel.cs" />
+    <Compile Include="Business\Controls\SelectionPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Business\Controls\SelectionPanel.Designer.cs">
+      <DependentUpon>SelectionPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Business\Export\ExportCommand.cs" />
+    <Compile Include="Business\Export\Model\ExportModel.cs" />
+    <Compile Include="Business\Export\View\ExportComponentsView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\Export\View\ExportComponentsView.Designer.cs">
+      <DependentUpon>ExportComponentsView.cs</DependentUpon>
     </Compile>
     <Compile Include="Business\ICommand.cs" />
     <Compile Include="Business\VbeItem.cs" />
     <Compile Include="Controls\CommandBars\IMenuItem.cs" />
     <Compile Include="Controls\CommandBars\MainMenu.cs" />
     <Compile Include="Controls\CommandBars\MenuItem.cs" />
+    <Compile Include="Extensions\CodeModuleSelection.cs" />
+    <Compile Include="Extensions\CodePaneExtensions.cs" />
+    <Compile Include="Extensions\Selection.cs" />
+    <Compile Include="Extensions\VbeExtensions.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="UI\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
@@ -82,27 +92,75 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Dlls\InteropAssemblies.bat" />
-    <None Include="VBEModules.snk" />
+    <None Include="VbeComponents.snk" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Dlls\VBEModules.Interop.Extensibility.dll" />
     <Content Include="Dlls\VBEModules.Interop.Office12.dll" />
     <Content Include="Dlls\VBEModules.Interop.Stdole.dll" />
     <Content Include="Dlls\VBEModules.Interop.VBAExtensibility.dll" />
+    <None Include="Resources\VSProject_form.bmp" />
+    <None Include="Resources\VSObject_Module.bmp" />
+    <None Include="Resources\VSObject_Class.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Business\Export\Model\" />
     <Folder Include="Logging\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Business\Export\View\ExportItemsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AddInDesignerObjects">
+      <Guid>{AC0714F2-3D04-11D1-AE7D-00A0C90F26F4}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Business\Controls\SelectionPanel.resx">
+      <DependentUpon>SelectionPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\Export\View\ExportComponentsView.resx">
+      <DependentUpon>ExportComponentsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,7 +6,7 @@ using sysForms = System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using System.Windows.Forms;
 
-namespace VBEModules.Business
+namespace VbeComponents.Business
 {
     /// <summary>
     /// Responsible for displaying the 'About' dialog
@@ -42,7 +42,7 @@ namespace VBEModules.Business
             frmAbout.Width = 310;
             frmAbout.StartPosition = FormStartPosition.CenterScreen;
 
-            frmAbout.ShowDialog();
+            frmAbout.ShowDialog();            
         }
 
         void wpfAbout_OKPressed(object sender, EventArgs e)

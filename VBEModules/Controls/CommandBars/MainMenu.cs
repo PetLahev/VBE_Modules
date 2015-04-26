@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using VBEModules.Interop;
-using VBEModules.Interop.VBAExtensibility;
-using VBEModules.Interop.Extensibility;
-using VBEModules.Business;
-using System.Runtime.InteropServices;
+using VbeComponents.Business;
 using Microsoft.Office.Core;
+using Microsoft.Vbe.Interop;
+using VbeComponents.Business.Export;
 
-namespace VBEModules.Controls.CommandBars
+namespace VbeComponents.Controls.CommandBars
 {
     /// <summary>
     /// Provides basic functionality for managing the Add-in menu
@@ -84,7 +81,7 @@ namespace VBEModules.Controls.CommandBars
                 IList<IMenuItem> items = new List<IMenuItem>();
                 items.Add(new MenuItem() { DisplayName = "About", Name = "btnAbout", IconId = 487, Order = 3, HasSeparator = true, Command = new AboutCommand() });
                 items.Add(new MenuItem() { DisplayName = "Import", Name = "btnImport", IconId = 1591, Order = 2, HasSeparator = false, Command = new AboutCommand() });
-                items.Add(new MenuItem() { DisplayName = "Export", Name = "btnExport", IconId = 1590, Order = 1, HasSeparator = false, Command = new AboutCommand() });
+                items.Add(new MenuItem() { DisplayName = "Export", Name = "btnExport", IconId = 1590, Order = 1, HasSeparator = false, Command = new ExportCommand(_vbe) });
                 AddMenuItemToMainMenu(items);
             }
             catch (Exception)
@@ -147,13 +144,13 @@ namespace VBEModules.Controls.CommandBars
         /// Common button click handler for all buttons under main menu
         /// Raises the common click event
         /// </summary>
-        /// <param name="Ctrl"></param>
-        /// <param name="CancelDefault"></param>
-        void cmdBtn_Click(CommandBarButton Ctrl, ref bool CancelDefault)
+        /// <param name="ctrl"></param>
+        /// <param name="cancelDefault"></param>
+        void cmdBtn_Click(CommandBarButton ctrl, ref bool cancelDefault)
         {
             if (ButtonClickHandler == null) return;
-            if ( _menuItems == null || !_menuItems.ContainsKey(Ctrl.Tag) ) return;
-            IMenuItem item = _menuItems[Ctrl.Tag];
+            if ( _menuItems == null || !_menuItems.ContainsKey(ctrl.Tag) ) return;
+            IMenuItem item = _menuItems[ctrl.Tag];
             ButtonClickHandler(item, new EventArgs());
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace VBEModules.Controls.CommandBars
+namespace VbeComponents.Controls.CommandBars
 {
     /// <summary>
     /// Defines interface for a menu item

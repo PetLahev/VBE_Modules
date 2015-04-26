@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VBEModules", "VBEModules\VBEModules.csproj", "{5F3CC852-C11B-41A9-ABE4-F432B6AD8628}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VBEModules.Tests", "VBEModules.Tests\VBEModules.Tests.csproj", "{50849E76-9725-4D14-BD25-9F27452F4189}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CC8A6B42-C3DC-408C-A869-C29A1AFD61C4}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+		VBEModules.vsmdi = VBEModules.vsmdi
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = VBEModules.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -13,6 +25,10 @@ Global
 		{5F3CC852-C11B-41A9-ABE4-F432B6AD8628}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F3CC852-C11B-41A9-ABE4-F432B6AD8628}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F3CC852-C11B-41A9-ABE4-F432B6AD8628}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50849E76-9725-4D14-BD25-9F27452F4189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50849E76-9725-4D14-BD25-9F27452F4189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50849E76-9725-4D14-BD25-9F27452F4189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50849E76-9725-4D14-BD25-9F27452F4189}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

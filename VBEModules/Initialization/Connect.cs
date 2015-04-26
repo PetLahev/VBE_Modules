@@ -1,34 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using VBEModules.Interop.Extensibility;
-using VBEModules.Interop.Stdole;
-using VBEModules.Interop.VBAExtensibility;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using Microsoft.Office.Core;
+using Extensibility;
+using Microsoft.Vbe.Interop;
 
-namespace VBEModules
+namespace VbeComponents
 {    
     /// <summary>
     /// The entry point of the VBE AddIn.
     /// Hooks the AddIn to the VB Editor and makes all necessary logic to run the AddIn
     /// Keep It Simple! 
     /// </summary>
-    [ ComVisible(true), Guid("CD2AC52C-1DA4-4FF8-A271-1565A5D06617"), ProgId("VBEModules.Connect") ]
+    [ComVisible(true), Guid("59507bb9-1380-406e-929d-ed5030f7b1bf"), ProgId("VBEComponents.Connect")]
     public class Connect : IDTExtensibility2
     {
-        private VBEModules.Interop.VBAExtensibility.VBE _vbe;
-        private VBEModules.Interop.VBAExtensibility.AddIn _addIn;
+        private VBE _vbe;
+        private AddIn _addIn;
         private static Controls.CommandBars.MainMenu _menu;
 
-        public void OnConnection(object Application, ext_ConnectMode ConnectMode, object AddInInst, ref Array custom)
+        public void OnConnection(object application, ext_ConnectMode connectMode, object addInInst, ref Array custom)
         {
             try
             {
-                _vbe = (VBEModules.Interop.VBAExtensibility.VBE)Application;
-                _addIn = (VBEModules.Interop.VBAExtensibility.AddIn)AddInInst;
+                _vbe = (VBE)application;
+                _addIn = (AddIn)addInInst;
             }
             catch (Exception e)
             {
@@ -43,9 +38,9 @@ namespace VBEModules
             _menu.ButtonClickHandler += new Controls.CommandBars.MainMenu.ButtonsClickDel(_menu_ButtonClickHandler);            
         }
 
-        public void OnDisconnection(ext_DisconnectMode RemoveMode, ref Array custom)
+        public void OnDisconnection(ext_DisconnectMode removeMode, ref Array custom)
         {
-            if (RemoveMode != ext_DisconnectMode.ext_dm_UserClosed && RemoveMode != ext_DisconnectMode.ext_dm_HostShutdown) return;
+            if (removeMode != ext_DisconnectMode.ext_dm_UserClosed && removeMode != ext_DisconnectMode.ext_dm_HostShutdown) return;
             try
             {
                 _menu = Controls.CommandBars.MainMenu.GetInstance(_vbe);

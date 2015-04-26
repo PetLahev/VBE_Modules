@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-using VBEModules.Interop.VBAExtensibility;
+﻿using System.Runtime.InteropServices;
+using Microsoft.Vbe.Interop;
 
-namespace VBEModules.Business
+namespace VbeComponents.Business
 {
     /// <summary>Provides common functionality for VBE component </summary>
     [ComVisible(false)]
