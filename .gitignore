@@ -17,6 +17,7 @@ x64/
 build/
 [Bb]in/
 [Oo]bj/
+TestResults/
 
 # Windows image file caches
 Thumbs.db
