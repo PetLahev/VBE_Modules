@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.Vbe.Interop;
 using VbeComponents.Business.Controls;
+using VbeComponents.Events;
 
 namespace VbeComponents.Business.Export.View
 {
@@ -13,7 +14,9 @@ namespace VbeComponents.Business.Export.View
     {
         private IEnumerable<_VBComponent> _componenets;
         private VbeComponents.Business.Controls.ISelectionPanel _panel;
-        public event EventHandler PathRequestHandler;
+        public event EventHandler PathSelecting;
+        public event ExportEventHandler ExportRequestedRaised;
+
         private int _counter = 0;
 
         public ExportComponentsView()
@@ -185,12 +188,42 @@ namespace VbeComponents.Business.Export.View
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            if (PathRequestHandler != null) PathRequestHandler(this, null);
+            if (PathSelecting != null) PathSelecting(this, null);
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            var checkedNodes  = tw.Nodes
+                                .OfType<TreeNode>()
+                                .SelectMany(x => GetNodeAndChildren(x))
+                                .Where(x => x.Checked && x.Parent != null)
+                                .ToArray();
+            if (!checkedNodes.Any())
+            {
+                MessageBox.Show("Select at least one component to export!", "Export project components", MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation);
+                return;
+            }
+            
+            ExportEventArgs args = new ExportEventArgs() { ProjectName = txtProjectName.Text, Path = txtExportPath.Text};
+            if (ExportRequestedRaised != null) ExportRequestedRaised(this, args);
+            if (args.Cancel) return;
+
+            DialogResult ans =  MessageBox.Show("", "Export project components", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+        }
+
+        IEnumerable<TreeNode> GetNodeAndChildren(TreeNode node)
+        {
+            return new[] { node }.Concat(node.Nodes
+                                            .OfType<TreeNode>()
+                                            .SelectMany(x => GetNodeAndChildren(x)));
+        }
+
+
     }
 }

@@ -1,2 +1,0 @@
-' Run as Admin
-c:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /codebase "c:\Users\PetLahev\Documents\Visual Studio 2010\Projects\VBEModules\VBEModules\bin\Debug\VBEModules.dll"

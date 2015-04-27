@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\AboutCommand.cs" />
+    <Compile Include="Business\Configurations\ConfigurationBase.cs" />
+    <Compile Include="Business\Configurations\ConfigurationXmlFile.cs" />
     <Compile Include="Business\Controls\ISelectionPanel.cs" />
     <Compile Include="Business\Controls\SelectionPanel.cs">
       <SubType>UserControl</SubType>
@@ -70,10 +72,10 @@
       <DependentUpon>ExportComponentsView.cs</DependentUpon>
     </Compile>
     <Compile Include="Business\ICommand.cs" />
-    <Compile Include="Business\VbeItem.cs" />
     <Compile Include="Controls\CommandBars\IMenuItem.cs" />
     <Compile Include="Controls\CommandBars\MainMenu.cs" />
     <Compile Include="Controls\CommandBars\MenuItem.cs" />
+    <Compile Include="Events\ExportEventHandler.cs" />
     <Compile Include="Extensions\CodeModuleSelection.cs" />
     <Compile Include="Extensions\CodePaneExtensions.cs" />
     <Compile Include="Extensions\Selection.cs" />
@@ -83,6 +85,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="UI\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
@@ -91,14 +98,14 @@
     <Compile Include="Business\Export\IExport.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Dlls\InteropAssemblies.bat" />
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="VbeComponents.snk" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Dlls\VBEModules.Interop.Extensibility.dll" />
-    <Content Include="Dlls\VBEModules.Interop.Office12.dll" />
-    <Content Include="Dlls\VBEModules.Interop.Stdole.dll" />
-    <Content Include="Dlls\VBEModules.Interop.VBAExtensibility.dll" />
     <None Include="Resources\VSProject_form.bmp" />
     <None Include="Resources\VSObject_Module.bmp" />
     <None Include="Resources\VSObject_Class.bmp" />

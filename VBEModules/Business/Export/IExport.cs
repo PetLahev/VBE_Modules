@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Microsoft.Vbe.Interop;
+using VbeComponents.Events;
 
 namespace VbeComponents.Business.Export
 {
@@ -31,7 +32,10 @@ namespace VbeComponents.Business.Export
         void CloseForm();
 
         /// <summary>Occurs when a path initialization/change is requested</summary>
-        event EventHandler PathRequestHandler;
+        event EventHandler PathSelecting;
+
+        /// <summary>Occurs when components should be exported</summary>
+        event ExportEventHandler ExportRequestedRaised;
 
     }
 }

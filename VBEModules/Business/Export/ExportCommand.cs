@@ -1,45 +1,74 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Microsoft.Vbe.Interop;
+using VbeComponents.Business.Configurations;
+using VbeComponents.Business.Export.Model;
 using VbeComponents.Business.Export.View;
 using VbeComponents.Extensions;
 
 namespace VbeComponents.Business.Export
 {
-    class ExportCommand : ICommand, IDisposable
+    /// <summary>Provides functionality for Export feature - Command pattern. Acts like a presenter </summary>
+    class ExportCommand : ICommand
     {
         private IExport _view;
         private VBE _vbe;
+        private ExportModel _model = null;
+        private Configurations.ConfigurationBase _config = null;
 
+        /// <summary>Initializes internal properties</summary>
+        /// <param name="vbe">instance of the VBE</param>
         public ExportCommand(VBE vbe)
         {
             _vbe = vbe;
-        }
-        
-        public void Dispose()
-        {
-            throw new NotImplementedException();
+            _model = new ExportModel(_vbe);
+            _model.PathSelected += new EventHandler(_model_PathSelected);
+            _config = new ConfigurationXmlFile();
         }
 
+        /// <summary>
+        /// Sets/Gets instance of the Export view that will be used
+        /// </summary>
+        public IExport ExportView
+        {
+            get { return _view ?? (_view = new ExportComponentsView()); }
+            set { _view = value; }
+        }
+
+        /// <summary>
+        /// Shows up the Export view to user
+        /// </summary>
         public void Execute()
         {
-            _view = new ExportComponentsView();
-            _view.PathRequestHandler += new EventHandler(view_PathRequestHandler);
-            _view.ProjectName = _vbe.ActiveVBProject.Name;
-            _view.Items = _vbe.FindComponents(_vbe.ActiveVBProject.Name);
-            _view.ShowView();
+            try
+            {
+                _view = ExportView;
+                _view.PathSelecting += new EventHandler(PathRequestHandler);
+                _view.ExportRequestedRaised += new Events.ExportEventHandler(_view_ExportRequestedRaised);
+                _view.ProjectName = _vbe.ActiveVBProject.Name;
+                _view.Path = _config.GetProjectPath(_vbe.ActiveVBProject.Name);
+                _view.Items = _vbe.FindComponents(_vbe.ActiveVBProject.Name);
+                _view.ShowView();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        void view_PathRequestHandler(object sender, EventArgs e)
+        void _view_ExportRequestedRaised(object sender, Events.ExportEventArgs e)
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog {ShowNewFolderButton = true};
-            DialogResult result  = fbd.ShowDialog();
+            e.Cancel = true;
+        }
 
-            if (result == DialogResult.Cancel) return;
-            _view.Path = fbd.SelectedPath;
+        void _model_PathSelected(object sender, EventArgs e)
+        {
+            _view.Path =  (string)sender;
+        }
+
+        private void PathRequestHandler(object sender, EventArgs e)
+        {
+            _model.PathRequestHandler();
         }
     }
 }
