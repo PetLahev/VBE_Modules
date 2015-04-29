@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using VbeComponents.Business;
 using Microsoft.Office.Core;
 using Microsoft.Vbe.Interop;
 using VbeComponents.Business.Export;
+using VbeComponents.Resources;
 
 namespace VbeComponents.Controls.CommandBars
 {
@@ -16,16 +18,15 @@ namespace VbeComponents.Controls.CommandBars
         /// <summary>
         /// Gets the name of the main menu of this Add-in
         /// </summary>
-        internal const string ADDIN_MENU_NAME = "VBEModulesMainMenu";
+        internal const string AddinMenuName = "VBEModulesMainMenu";
 
         internal delegate void ButtonsClickDel(IMenuItem sender, EventArgs e);
         internal event ButtonsClickDel ButtonClickHandler;
 
         // Constants for names of built-in command bars of the VBA editor
-        const string  STANDARD_COMMANDBAR_NAME = "Standard";
-        const string  MENUBAR_COMMANDBAR_NAME = "Menu Bar";
-        const string  TOOLS_COMMANDBAR_NAME = "Tools";
-        const string  CODE_WINDOW_COMMANDBAR_NAME = "Code Window";
+        const string  StandardCommandbarName = "Standard";
+        const string  MenubarCommandbarName = "Menu Bar";
+        const string  ToolsCommandbarName = "Tools";
 
         private CommandBarPopup _addInMenu;
         private static VBE _vbe;        
@@ -64,9 +65,9 @@ namespace VbeComponents.Controls.CommandBars
             try
             {                
                 // Retrieve some built-in commandbars
-                standardCommandBar = _vbe.CommandBars[STANDARD_COMMANDBAR_NAME];
-                menuCommandBar = _vbe.CommandBars[MENUBAR_COMMANDBAR_NAME];
-                toolsCommandBar = _vbe.CommandBars[TOOLS_COMMANDBAR_NAME];
+                standardCommandBar = _vbe.CommandBars[StandardCommandbarName];
+                menuCommandBar = _vbe.CommandBars[MenubarCommandbarName];
+                toolsCommandBar = _vbe.CommandBars[ToolsCommandbarName];
 
                 // Calculate the position of a new commandbar popup to the right of the "Tools" menu
                 toolsCommandBarControl = (CommandBarControl)toolsCommandBar.Parent;
@@ -74,7 +75,7 @@ namespace VbeComponents.Controls.CommandBars
 
                 // Add a new AddIn menu to VBE toolbar 
                 _addInMenu = (CommandBarPopup)menuCommandBar.Controls.Add(MsoControlType.msoControlPopup, System.Type.Missing, System.Type.Missing, position, true);
-                _addInMenu.CommandBar.Name = ADDIN_MENU_NAME;
+                _addInMenu.CommandBar.Name = AddinMenuName;
                 _addInMenu.Caption = "V&BE Modules";
                 _addInMenu.Visible = true;
 
@@ -148,6 +149,13 @@ namespace VbeComponents.Controls.CommandBars
         /// <param name="cancelDefault"></param>
         void cmdBtn_Click(CommandBarButton ctrl, ref bool cancelDefault)
         {
+            if (_vbe.ActiveVBProject.Protection == vbext_ProjectProtection.vbext_pp_locked)
+            {
+                MessageBox.Show(string.Format(strings.ProtectedProject, _vbe.ActiveVBProject.Name), 
+                    strings.ApplicationMessageCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             if (ButtonClickHandler == null) return;
             if ( _menuItems == null || !_menuItems.ContainsKey(ctrl.Tag) ) return;
             IMenuItem item = _menuItems[ctrl.Tag];

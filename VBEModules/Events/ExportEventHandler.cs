@@ -12,7 +12,7 @@ namespace VbeComponents.Events
     public class ExportEventArgs : EventArgs
     {
         public bool Cancel { get; set; }
-        public VBComponent[] SelectedComponents { get; set; }
+        public IEnumerable<_VBComponent> SelectedComponents { get; set; }
         public string ProjectName { get; set; }
         public string Path { get; set; }
     }

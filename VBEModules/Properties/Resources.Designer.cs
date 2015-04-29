@@ -63,9 +63,9 @@ namespace VbeComponents.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap VSObject_Class {
+        internal static System.Drawing.Bitmap Class {
             get {
-                object obj = ResourceManager.GetObject("VSObject_Class", resourceCulture);
+                object obj = ResourceManager.GetObject("Class", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace VbeComponents.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap VSObject_Module {
+        internal static System.Drawing.Bitmap Document {
             get {
-                object obj = ResourceManager.GetObject("VSObject_Module", resourceCulture);
+                object obj = ResourceManager.GetObject("Document", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,19 @@ namespace VbeComponents.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap VSProject_form {
+        internal static System.Drawing.Bitmap Form {
             get {
-                object obj = ResourceManager.GetObject("VSProject_form", resourceCulture);
+                object obj = ResourceManager.GetObject("Form", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Module {
+            get {
+                object obj = ResourceManager.GetObject("Module", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -27,11 +28,11 @@ namespace VbeComponents.Extensions
         }
 
         /// <summary>
-        /// 
+        /// Finds all components from the given project
         /// </summary>
-        /// <param name="vbe"></param>
-        /// <param name="projectName"></param>
-        /// <returns></returns>
+        /// <param name="vbe">instance of he VBE editor</param>
+        /// <param name="projectName">name of the project to take components from</param>
+        /// <returns>collection of all components from the given project</returns>
         public static IEnumerable<VBComponent> FindComponents(this VBE vbe, string projectName)
         {
             var matches =
@@ -40,6 +41,35 @@ namespace VbeComponents.Extensions
                     .SelectMany(project => project.VBComponents.Cast<VBComponent>());
                               
             return matches;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string GetExtension(vbext_ComponentType type)
+        {
+            switch (type)
+            {
+                case vbext_ComponentType.vbext_ct_StdModule:
+                    return ".bas";
+                    break;
+                case vbext_ComponentType.vbext_ct_ClassModule:
+                    return ".cls";
+                    break;
+                case vbext_ComponentType.vbext_ct_MSForm:
+                    return ".frm";
+                    break;
+                case vbext_ComponentType.vbext_ct_ActiveXDesigner:
+                    throw new ArgumentOutOfRangeException("type");
+                    break;
+                case vbext_ComponentType.vbext_ct_Document:
+                    return ".cls";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("type");
+            }
         }
 
     }

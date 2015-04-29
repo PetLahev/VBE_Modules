@@ -7,14 +7,17 @@ using System.Windows.Forms;
 using Microsoft.Vbe.Interop;
 using VbeComponents.Business.Controls;
 using VbeComponents.Events;
+using VbeComponents.Resources;
 
 namespace VbeComponents.Business.Export.View
 {
     public partial class ExportComponentsView : Form, IExport
     {
         private IEnumerable<_VBComponent> _componenets;
-        private VbeComponents.Business.Controls.ISelectionPanel _panel;
-        public event EventHandler PathSelecting;
+        private ISelectionPanel _panel;
+
+        public event ExportEventHandler PathSelecting;
+        public event ExportEventHandler PathValidating;
         public event ExportEventHandler ExportRequestedRaised;
 
         private int _counter = 0;
@@ -22,9 +25,10 @@ namespace VbeComponents.Business.Export.View
         public ExportComponentsView()
         {
             InitializeComponent();
-            this.imageList1.Images.Add("class",   Properties.Resources.VSObject_Class);
-            this.imageList1.Images.Add("module",  Properties.Resources.VSObject_Module);
-            this.imageList1.Images.Add("form",    Properties.Resources.VSProject_form);
+            this.imageList1.Images.Add("class",   Properties.Resources.Class);
+            this.imageList1.Images.Add("module",  Properties.Resources.Module);
+            this.imageList1.Images.Add("form",    Properties.Resources.Form);
+            this.imageList1.Images.Add("document", Properties.Resources.Document);
             tw.ImageList = this.imageList1;
             _panel = this.selectionPanel1;
             _panel.SelectionChanged += new EventHandler(selectionPanel1_SelectionChanged);
@@ -117,7 +121,7 @@ namespace VbeComponents.Business.Export.View
 
         private void AddDefaultPathText()
         {
-            txtExportPath.Text = @"Specify path to export";
+            txtExportPath.Text = strings.DefaultPathValue;
             txtExportPath.Font = new Font("Microsoft Sans Serif", 9, FontStyle.Italic);
             txtExportPath.ForeColor = Color.Gray;
         }
@@ -127,6 +131,8 @@ namespace VbeComponents.Business.Export.View
             get { return _componenets; }
             set
             {
+                tw.Nodes.Clear();
+                _counter = 0;
                 _componenets = value;
                 if (_componenets == null) return;
 
@@ -141,10 +147,10 @@ namespace VbeComponents.Business.Export.View
                 AddComponent(vbComponents, "Classes", "class");
 
                 vbComponents = GetComponnets(vbext_ComponentType.vbext_ct_Document);
-                AddComponent(vbComponents, "Documents", "class");
+                AddComponent(vbComponents, "Documents", "document");
                 
                 CheckAllNodes(tw.Nodes);
-                lblItems.Text = string.Format("Number of components: {0} ({1} selected)", _counter, _counter);
+                lblItems.Text = string.Format(strings.NumberOfComponentsPlusSelected, _counter, _counter);
                 tw.ExpandAll();
             }
         }
@@ -160,7 +166,7 @@ namespace VbeComponents.Business.Export.View
         {
             if (items.Any())
             {
-                var parentNode = tw.Nodes.Add(key: nodeText, text: string.Format("{0} ({1})", nodeText, items.Count()), imageKey: "module");
+                var parentNode = tw.Nodes.Add(key: nodeText, text: string.Format("{0} ({1})", nodeText, items.Count()), imageKey: imageKey);
                 foreach (_VBComponent item in items)
                 {
                     TreeNode nd=  parentNode.Nodes.Add(key: item.Name, text: item.Name, imageKey: imageKey);
@@ -174,7 +180,13 @@ namespace VbeComponents.Business.Export.View
         {
             get
             {
-                throw new NotImplementedException();
+                var checkedNodes = tw.Nodes
+                                .OfType<TreeNode>()
+                                .SelectMany(x => GetNodeAndChildren(x))
+                                .Where(x => x.Checked && x.Parent != null)
+                                .Select(x => x.Tag as VBComponent)
+                                .ToArray();
+                return checkedNodes;
             }
             set
             {
@@ -198,23 +210,36 @@ namespace VbeComponents.Business.Export.View
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            var checkedNodes  = tw.Nodes
-                                .OfType<TreeNode>()
-                                .SelectMany(x => GetNodeAndChildren(x))
-                                .Where(x => x.Checked && x.Parent != null)
-                                .ToArray();
-            if (!checkedNodes.Any())
+            if (!SelectedItems.Any())
             {
-                MessageBox.Show("Select at least one component to export!", "Export project components", MessageBoxButtons.OK,
+                MessageBox.Show(strings.ExportNoItemSelected, strings.ExportFormMessageCaption, MessageBoxButtons.OK,
                     MessageBoxIcon.Exclamation);
                 return;
             }
             
             ExportEventArgs args = new ExportEventArgs() { ProjectName = txtProjectName.Text, Path = txtExportPath.Text};
+            if (PathValidating != null) PathValidating(this, args);
+            if (!args.Cancel)
+            {
+                MessageBox.Show(strings.PathIsNotValid, strings.ExportFormMessageCaption, MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            int numofChecked = SelectedItems.Count();
+            string confirmMessage = string.Format(strings.ExportConfirmation, 
+                numofChecked,  numofChecked == 1 ? strings.Item :  strings.Items );
+            DialogResult answer =  MessageBox.Show(
+                confirmMessage, strings.ExportFormMessageCaption, MessageBoxButtons.YesNo, 
+                MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (answer == DialogResult.No) return;
+            
+            args = new ExportEventArgs() { ProjectName = txtProjectName.Text, 
+                Path = txtExportPath.Text, 
+                SelectedComponents = SelectedItems};
             if (ExportRequestedRaised != null) ExportRequestedRaised(this, args);
             if (args.Cancel) return;
-
-            DialogResult ans =  MessageBox.Show("", "Export project components", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            this.Close();
         }
 
         IEnumerable<TreeNode> GetNodeAndChildren(TreeNode node)

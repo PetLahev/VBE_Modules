@@ -14,15 +14,13 @@ namespace VbeComponents.Business.Export
         private IExport _view;
         private VBE _vbe;
         private ExportModel _model = null;
-        private Configurations.ConfigurationBase _config = null;
+        private ConfigurationBase _config = null;
 
         /// <summary>Initializes internal properties</summary>
         /// <param name="vbe">instance of the VBE</param>
         public ExportCommand(VBE vbe)
         {
             _vbe = vbe;
-            _model = new ExportModel(_vbe);
-            _model.PathSelected += new EventHandler(_model_PathSelected);
             _config = new ConfigurationXmlFile();
         }
 
@@ -40,35 +38,45 @@ namespace VbeComponents.Business.Export
         /// </summary>
         public void Execute()
         {
-            try
-            {
-                _view = ExportView;
-                _view.PathSelecting += new EventHandler(PathRequestHandler);
-                _view.ExportRequestedRaised += new Events.ExportEventHandler(_view_ExportRequestedRaised);
-                _view.ProjectName = _vbe.ActiveVBProject.Name;
-                _view.Path = _config.GetProjectPath(_vbe.ActiveVBProject.Name);
-                _view.Items = _vbe.FindComponents(_vbe.ActiveVBProject.Name);
-                _view.ShowView();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            _model = new ExportModel(_vbe, _vbe.ActiveVBProject.Name);
+            _model.PathSelected += new EventHandler(_model_PathSelected);
+
+            _view = ExportView;
+            _view.PathSelecting += new Events.ExportEventHandler(_view_PathSelecting);
+            _view.ExportRequestedRaised += new Events.ExportEventHandler(_view_ExportRequestedRaised);
+            _view.PathValidating += new Events.ExportEventHandler(_view_PathValidating);
+
+            _model.GetProjectPath(_config);
+            _view.ProjectName = _vbe.ActiveVBProject.Name;
+            _view.Items = _vbe.FindComponents(_vbe.ActiveVBProject.Name);
+            _view.ShowView();
         }
 
-        void _view_ExportRequestedRaised(object sender, Events.ExportEventArgs e)
+        /// <summary>
+        /// Raised when user is about to use a selected path.
+        /// Will perform a validation if the path is still valid
+        ///  </summary>
+        void _view_PathValidating(object sender, Events.ExportEventArgs e)
         {
-            e.Cancel = true;
+            e.Cancel = _config.Exists(e.Path);
         }
 
-        void _model_PathSelected(object sender, EventArgs e)
-        {
-            _view.Path =  (string)sender;
-        }
-
-        private void PathRequestHandler(object sender, EventArgs e)
+        /// <summary>Raise when user has request a path change </summary>
+        void _view_PathSelecting(object sender, Events.ExportEventArgs e)
         {
             _model.PathRequestHandler();
         }
+
+        private void _view_ExportRequestedRaised(object sender, Events.ExportEventArgs e)
+        {
+            if (e == null) return;
+            _model.ExportComponents(e, _config);
+        }
+
+        private void _model_PathSelected(object sender, EventArgs e)
+        {
+            _view.Path = (string)sender;
+        }
+
     }
 }

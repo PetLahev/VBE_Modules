@@ -38,10 +38,10 @@
             this.lblPathCaption = new System.Windows.Forms.Label();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.chbOverride = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtProjectName = new System.Windows.Forms.TextBox();
             this.selectionPanel1 = new VbeComponents.Business.Controls.SelectionPanel();
+            this.lblTopHeader = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,13 +59,17 @@
             // btnExport
             // 
             this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnExport.BackColor = System.Drawing.Color.DimGray;
+            this.btnExport.FlatAppearance.BorderColor = System.Drawing.SystemColors.ScrollBar;
+            this.btnExport.FlatAppearance.BorderSize = 2;
+            this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExport.ForeColor = System.Drawing.Color.White;
             this.btnExport.Location = new System.Drawing.Point(410, 390);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(116, 38);
             this.btnExport.TabIndex = 3;
             this.btnExport.Text = "&Export";
-            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.UseVisualStyleBackColor = false;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // lblProjectCaption
@@ -103,13 +107,18 @@
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnCancel.BackColor = System.Drawing.Color.DimGray;
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.FlatAppearance.BorderColor = System.Drawing.SystemColors.ScrollBar;
+            this.btnCancel.FlatAppearance.BorderSize = 2;
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.ForeColor = System.Drawing.Color.White;
             this.btnCancel.Location = new System.Drawing.Point(542, 390);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(116, 38);
             this.btnCancel.TabIndex = 8;
             this.btnCancel.Text = "&Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // lblPathCaption
@@ -124,12 +133,15 @@
             // btnBrowse
             // 
             this.btnBrowse.BackColor = System.Drawing.Color.DimGray;
-            this.btnBrowse.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnBrowse.FlatAppearance.BorderColor = System.Drawing.SystemColors.ScrollBar;
+            this.btnBrowse.FlatAppearance.BorderSize = 2;
+            this.btnBrowse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBrowse.ForeColor = System.Drawing.Color.White;
             this.btnBrowse.Location = new System.Drawing.Point(267, 107);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(95, 28);
             this.btnBrowse.TabIndex = 10;
-            this.btnBrowse.Text = "Browse…";
+            this.btnBrowse.Text = "&Browse…";
             this.btnBrowse.UseVisualStyleBackColor = false;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
@@ -138,19 +150,6 @@
             this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // chbOverride
-            // 
-            this.chbOverride.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.chbOverride.AutoSize = true;
-            this.chbOverride.Checked = true;
-            this.chbOverride.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbOverride.Location = new System.Drawing.Point(413, 431);
-            this.chbOverride.Name = "chbOverride";
-            this.chbOverride.Size = new System.Drawing.Size(103, 17);
-            this.chbOverride.TabIndex = 11;
-            this.chbOverride.Text = "Override if exists";
-            this.chbOverride.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -186,14 +185,26 @@
             this.selectionPanel1.Size = new System.Drawing.Size(258, 18);
             this.selectionPanel1.TabIndex = 1;
             // 
+            // lblTopHeader
+            // 
+            this.lblTopHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTopHeader.BackColor = System.Drawing.Color.DarkGray;
+            this.lblTopHeader.Location = new System.Drawing.Point(-1, -1);
+            this.lblTopHeader.Name = "lblTopHeader";
+            this.lblTopHeader.Size = new System.Drawing.Size(670, 11);
+            this.lblTopHeader.TabIndex = 13;
+            // 
             // ExportComponentsView
             // 
+            this.AcceptButton = this.btnExport;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(670, 451);
+            this.Controls.Add(this.lblTopHeader);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.chbOverride);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lblItems);
             this.Controls.Add(this.btnExport);
@@ -222,8 +233,8 @@
         private System.Windows.Forms.Label lblPathCaption;
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.CheckBox chbOverride;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtProjectName;
+        private System.Windows.Forms.Label lblTopHeader;
     }
 }

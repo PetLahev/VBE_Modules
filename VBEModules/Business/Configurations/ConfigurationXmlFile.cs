@@ -16,6 +16,7 @@ namespace VbeComponents.Business.Configurations
         {
             if (!Directory.Exists(_configFilePath)) CreateConfigLocation(_configFilePath);
             if (!File.Exists(GetConfigFullName)) CreateConfigFile(_configFilePath);
+            if (_doc == null) _doc= new XmlDocument();
             _doc.Load(GetConfigFullName);
         }
 
@@ -83,7 +84,7 @@ namespace VbeComponents.Business.Configurations
                     saved.AppendChild(savedText);
                     vbProject.AppendChild(saved);
                 }
-                _doc.Save(ConfigName);
+                _doc.Save(GetConfigFullName);
                 retVal = true;
             }
             catch (Exception)

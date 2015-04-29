@@ -32,7 +32,10 @@ namespace VbeComponents.Business.Export
         void CloseForm();
 
         /// <summary>Occurs when a path initialization/change is requested</summary>
-        event EventHandler PathSelecting;
+        event ExportEventHandler PathSelecting;
+
+        /// <summary>Occurs when a path is going to be used and should be validated</summary>
+        event ExportEventHandler PathValidating;
 
         /// <summary>Occurs when components should be exported</summary>
         event ExportEventHandler ExportRequestedRaised;
