@@ -42,6 +42,7 @@ namespace VbeComponents.Business.Export
             _model.PathSelected += new EventHandler(_model_PathSelected);
 
             _view = ExportView;
+            
             _view.PathSelecting += new Events.ExportEventHandler(_view_PathSelecting);
             _view.ExportRequestedRaised += new Events.ExportEventHandler(_view_ExportRequestedRaised);
             _view.PathValidating += new Events.ExportEventHandler(_view_PathValidating);
@@ -50,6 +51,10 @@ namespace VbeComponents.Business.Export
             _view.ProjectName = _vbe.ActiveVBProject.Name;
             _view.Items = _vbe.GetComponents();
             _view.ShowView();
+
+            // due to using the ExportView getter, we need to dispose the view object to unsubscribe all events
+            _view.CloseForm();
+            _view = null;
         }
 
         /// <summary>
