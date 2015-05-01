@@ -28,16 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImportView));
             this.lblTopBanner = new System.Windows.Forms.Label();
             this.tw = new System.Windows.Forms.TreeView();
             this.selectionPanel1 = new VbeComponents.Business.Controls.SelectionPanel();
             this.lblItems = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblSelectedProject = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.btnBrowse = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.lblSelectedProject = new System.Windows.Forms.Label();
             this.btnImport = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.chOverride = new System.Windows.Forms.CheckBox();
@@ -95,39 +96,6 @@
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             // 
-            // lblSelectedProject
-            // 
-            this.lblSelectedProject.AutoSize = true;
-            this.lblSelectedProject.Location = new System.Drawing.Point(7, 20);
-            this.lblSelectedProject.Name = "lblSelectedProject";
-            this.lblSelectedProject.Size = new System.Drawing.Size(84, 13);
-            this.lblSelectedProject.TabIndex = 0;
-            this.lblSelectedProject.Text = "Selected project";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(10, 37);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(365, 20);
-            this.textBox1.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 64);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "label1";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(13, 81);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(362, 21);
-            this.comboBox1.TabIndex = 3;
-            // 
             // btnBrowse
             // 
             this.btnBrowse.BackColor = System.Drawing.Color.DimGray;
@@ -141,6 +109,39 @@
             this.btnBrowse.TabIndex = 11;
             this.btnBrowse.Text = "&Browse…";
             this.btnBrowse.UseVisualStyleBackColor = false;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(13, 81);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(362, 21);
+            this.comboBox1.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 64);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "label1";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(10, 37);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(365, 20);
+            this.textBox1.TabIndex = 1;
+            // 
+            // lblSelectedProject
+            // 
+            this.lblSelectedProject.AutoSize = true;
+            this.lblSelectedProject.Location = new System.Drawing.Point(7, 20);
+            this.lblSelectedProject.Name = "lblSelectedProject";
+            this.lblSelectedProject.Size = new System.Drawing.Size(84, 13);
+            this.lblSelectedProject.TabIndex = 0;
+            this.lblSelectedProject.Text = "Selected project";
             // 
             // btnImport
             // 
@@ -200,6 +201,7 @@
             this.Controls.Add(this.selectionPanel1);
             this.Controls.Add(this.tw);
             this.Controls.Add(this.lblTopBanner);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(686, 491);
             this.Name = "ImportView";
             this.Text = "Import Components";

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using VbeComponents.Business;
@@ -77,13 +79,17 @@ namespace VbeComponents.Controls.CommandBars
                 // Add a new AddIn menu to VBE toolbar 
                 _addInMenu = (CommandBarPopup)menuCommandBar.Controls.Add(MsoControlType.msoControlPopup, System.Type.Missing, System.Type.Missing, position, true);
                 _addInMenu.CommandBar.Name = AddinMenuName;
-                _addInMenu.Caption = "V&BE Modules";
+                _addInMenu.Caption = "Com&ponents";
                 _addInMenu.Visible = true;
 
                 IList<IMenuItem> items = new List<IMenuItem>();
-                items.Add(new MenuItem() { DisplayName = "About", Name = "btnAbout", IconId = 487, Order = 3, HasSeparator = true, Command = new AboutCommand() });
-                items.Add(new MenuItem() { DisplayName = "Import", Name = "btnImport", IconId = 1591, Order = 2, HasSeparator = false, Command = new ImportCommand(_vbe) });
-                items.Add(new MenuItem() { DisplayName = "Export", Name = "btnExport", IconId = 1590, Order = 1, HasSeparator = false, Command = new ExportCommand(_vbe) });
+                items.Add(new MenuItem() 
+                    { DisplayName = "About", Name = "btnAbout", IconId = 487, Order = 3, HasSeparator = true, Image = Properties.Resources.about_ico,  Command = new AboutCommand() });
+                items.Add(new MenuItem() 
+                    { DisplayName = "Import", Name = "btnImport", IconId = 1591, Order = 2, HasSeparator = false, Image  = Properties.Resources.import_button,  Command = new ImportCommand(_vbe) });
+                items.Add(new MenuItem() 
+                    { DisplayName = "Export", Name = "btnExport", IconId = 1590, Order = 1, HasSeparator = false, Image = Properties.Resources.export_button,  Command = new ExportCommand(_vbe) });
+
                 AddMenuItemToMainMenu(items);
             }
             catch (Exception)
@@ -129,7 +135,16 @@ namespace VbeComponents.Controls.CommandBars
                                 
                     cmdBtn.Style = MsoButtonStyle.msoButtonIconAndCaption;
                     cmdBtn.Caption = item.DisplayName;
-                    cmdBtn.FaceId = item.IconId;
+
+                    if (item.Image != null)
+                    {
+                        AddCustomImageToMenuItem(cmdBtn, item.Image);
+                    }
+                    else
+                    {
+                        cmdBtn.FaceId = item.IconId;    
+                    }
+
                     cmdBtn.BeginGroup = item.HasSeparator;
                     cmdBtn.Tag = item.Name;
                 
@@ -138,8 +153,18 @@ namespace VbeComponents.Controls.CommandBars
             }
             catch (Exception)
             {
-                throw;
+                MessageBox.Show(string.Format(""), 
+                    strings.ApplicationMessageCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        void AddCustomImageToMenuItem(CommandBarButton btn, Image img)
+        {
+            Bitmap theBitmap = new Bitmap(img, new Size(16, 16));
+            Clipboard.SetDataObject(theBitmap, true);
+            btn.FaceId = 0;
+            btn.PasteFace();
+            theBitmap.Dispose();
         }
 
         /// <summary>

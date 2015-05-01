@@ -13,6 +13,7 @@ namespace VbeComponents.Controls.CommandBars
         string Name { get; set; }
         string DisplayName { get; set; }
         int IconId { get; set; }
+        System.Drawing.Image Image { get; set; }
         double Order { get; set; }
         bool HasSeparator { get; set; }
         Business.ICommand Command { get; set; }

@@ -196,6 +196,21 @@
   <ItemGroup>
     <None Include="Resources\Document.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\receipt_import.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\import_button.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\export_button.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\about_ico.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\file_manager.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

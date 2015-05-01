@@ -28,7 +28,7 @@ namespace VbeComponents.Business.Export.View
             this.imageList1.Images.Add("class",   Properties.Resources.Class);
             this.imageList1.Images.Add("module",  Properties.Resources.Module);
             this.imageList1.Images.Add("form",    Properties.Resources.Form);
-            this.imageList1.Images.Add("document", Properties.Resources.Document);
+            this.imageList1.Images.Add("document", Properties.Resources.document);
             tw.ImageList = this.imageList1;
             _panel = this.selectionPanel1;
             _panel.SelectionChanged += new EventHandler(selectionPanel1_SelectionChanged);

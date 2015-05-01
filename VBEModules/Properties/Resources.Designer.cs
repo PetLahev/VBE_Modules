@@ -63,6 +63,16 @@ namespace VbeComponents.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap about_ico {
+            get {
+                object obj = ResourceManager.GetObject("about_ico", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Class {
             get {
                 object obj = ResourceManager.GetObject("Class", resourceCulture);
@@ -73,10 +83,30 @@ namespace VbeComponents.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Document {
+        internal static System.Drawing.Bitmap document {
             get {
-                object obj = ResourceManager.GetObject("Document", resourceCulture);
+                object obj = ResourceManager.GetObject("document", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap export_button {
+            get {
+                object obj = ResourceManager.GetObject("export_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon file_manager {
+            get {
+                object obj = ResourceManager.GetObject("file_manager", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -86,6 +116,16 @@ namespace VbeComponents.Properties {
         internal static System.Drawing.Bitmap Form {
             get {
                 object obj = ResourceManager.GetObject("Form", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap import_button {
+            get {
+                object obj = ResourceManager.GetObject("import_button", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

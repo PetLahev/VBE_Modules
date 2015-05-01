@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExportComponentsView));
             this.tw = new System.Windows.Forms.TreeView();
             this.btnExport = new System.Windows.Forms.Button();
             this.lblProjectCaption = new System.Windows.Forms.Label();
@@ -40,8 +41,8 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtProjectName = new System.Windows.Forms.TextBox();
-            this.selectionPanel1 = new VbeComponents.Business.Controls.SelectionPanel();
             this.lblTopBanner = new System.Windows.Forms.Label();
+            this.selectionPanel1 = new VbeComponents.Business.Controls.SelectionPanel();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -178,13 +179,6 @@
             this.txtProjectName.TabIndex = 11;
             this.txtProjectName.Text = "<project name>";
             // 
-            // selectionPanel1
-            // 
-            this.selectionPanel1.Location = new System.Drawing.Point(12, 12);
-            this.selectionPanel1.Name = "selectionPanel1";
-            this.selectionPanel1.Size = new System.Drawing.Size(258, 18);
-            this.selectionPanel1.TabIndex = 1;
-            // 
             // lblTopBanner
             // 
             this.lblTopBanner.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -194,6 +188,13 @@
             this.lblTopBanner.Name = "lblTopBanner";
             this.lblTopBanner.Size = new System.Drawing.Size(670, 11);
             this.lblTopBanner.TabIndex = 13;
+            // 
+            // selectionPanel1
+            // 
+            this.selectionPanel1.Location = new System.Drawing.Point(12, 12);
+            this.selectionPanel1.Name = "selectionPanel1";
+            this.selectionPanel1.Size = new System.Drawing.Size(258, 18);
+            this.selectionPanel1.TabIndex = 1;
             // 
             // ExportComponentsView
             // 
@@ -210,6 +211,7 @@
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.selectionPanel1);
             this.Controls.Add(this.tw);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(686, 489);
             this.Name = "ExportComponentsView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
