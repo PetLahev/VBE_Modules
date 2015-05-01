@@ -6,6 +6,7 @@ using VbeComponents.Business;
 using Microsoft.Office.Core;
 using Microsoft.Vbe.Interop;
 using VbeComponents.Business.Export;
+using VbeComponents.Business.Import;
 using VbeComponents.Resources;
 
 namespace VbeComponents.Controls.CommandBars
@@ -81,7 +82,7 @@ namespace VbeComponents.Controls.CommandBars
 
                 IList<IMenuItem> items = new List<IMenuItem>();
                 items.Add(new MenuItem() { DisplayName = "About", Name = "btnAbout", IconId = 487, Order = 3, HasSeparator = true, Command = new AboutCommand() });
-                items.Add(new MenuItem() { DisplayName = "Import", Name = "btnImport", IconId = 1591, Order = 2, HasSeparator = false, Command = new AboutCommand() });
+                items.Add(new MenuItem() { DisplayName = "Import", Name = "btnImport", IconId = 1591, Order = 2, HasSeparator = false, Command = new ImportCommand(_vbe) });
                 items.Add(new MenuItem() { DisplayName = "Export", Name = "btnExport", IconId = 1590, Order = 1, HasSeparator = false, Command = new ExportCommand(_vbe) });
                 AddMenuItemToMainMenu(items);
             }

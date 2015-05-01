@@ -48,7 +48,7 @@ namespace VbeComponents.Business.Export
 
             _model.GetProjectPath(_config);
             _view.ProjectName = _vbe.ActiveVBProject.Name;
-            _view.Items = _vbe.FindComponents(_vbe.ActiveVBProject.Name);
+            _view.Items = _vbe.GetComponents();
             _view.ShowView();
         }
 

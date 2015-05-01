@@ -28,19 +28,13 @@ namespace VbeComponents.Extensions
         }
 
         /// <summary>
-        /// Finds all components from the given project
+        /// Returns all components from active VB project
         /// </summary>
         /// <param name="vbe">instance of he VBE editor</param>
-        /// <param name="projectName">name of the project to take components from</param>
         /// <returns>collection of all components from the given project</returns>
-        public static IEnumerable<VBComponent> FindComponents(this VBE vbe, string projectName)
+        public static IEnumerable<VBComponent> GetComponents(this VBE vbe)
         {
-            var matches =
-                vbe.VBProjects.Cast<VBProject>()
-                    .Where(project => project.Name == projectName)
-                    .SelectMany(project => project.VBComponents.Cast<VBComponent>());
-                              
-            return matches;
+            return vbe.ActiveVBProject.VBComponents.Cast<VBComponent>();
         }
 
         /// <summary>

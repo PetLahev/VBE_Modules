@@ -41,7 +41,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtProjectName = new System.Windows.Forms.TextBox();
             this.selectionPanel1 = new VbeComponents.Business.Controls.SelectionPanel();
-            this.lblTopHeader = new System.Windows.Forms.Label();
+            this.lblTopBanner = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -185,15 +185,15 @@
             this.selectionPanel1.Size = new System.Drawing.Size(258, 18);
             this.selectionPanel1.TabIndex = 1;
             // 
-            // lblTopHeader
+            // lblTopBanner
             // 
-            this.lblTopHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblTopBanner.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTopHeader.BackColor = System.Drawing.Color.DarkGray;
-            this.lblTopHeader.Location = new System.Drawing.Point(-1, -1);
-            this.lblTopHeader.Name = "lblTopHeader";
-            this.lblTopHeader.Size = new System.Drawing.Size(670, 11);
-            this.lblTopHeader.TabIndex = 13;
+            this.lblTopBanner.BackColor = System.Drawing.Color.DarkGray;
+            this.lblTopBanner.Location = new System.Drawing.Point(-1, -1);
+            this.lblTopBanner.Name = "lblTopBanner";
+            this.lblTopBanner.Size = new System.Drawing.Size(670, 11);
+            this.lblTopBanner.TabIndex = 13;
             // 
             // ExportComponentsView
             // 
@@ -203,7 +203,7 @@
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(670, 451);
-            this.Controls.Add(this.lblTopHeader);
+            this.Controls.Add(this.lblTopBanner);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lblItems);
@@ -235,6 +235,6 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtProjectName;
-        private System.Windows.Forms.Label lblTopHeader;
+        private System.Windows.Forms.Label lblTopBanner;
     }
 }
