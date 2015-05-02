@@ -33,7 +33,7 @@ namespace VbeComponents.Business.Configurations
         public virtual bool Exists(string path)
         {
             if (string.IsNullOrWhiteSpace(path)) return false;
-            return Directory.Exists(path);
+            return Utils.PathExists(path);
         }
 
     }

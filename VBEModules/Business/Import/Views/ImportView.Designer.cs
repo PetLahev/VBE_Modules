@@ -35,9 +35,9 @@
             this.lblItems = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnBrowse = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.cboProjects = new System.Windows.Forms.ComboBox();
+            this.lblProjectImportFrom = new System.Windows.Forms.Label();
+            this.txtActiveProject = new System.Windows.Forms.TextBox();
             this.lblSelectedProject = new System.Windows.Forms.Label();
             this.btnImport = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -78,17 +78,16 @@
             this.lblItems.AutoSize = true;
             this.lblItems.Location = new System.Drawing.Point(13, 433);
             this.lblItems.Name = "lblItems";
-            this.lblItems.Size = new System.Drawing.Size(35, 13);
+            this.lblItems.Size = new System.Drawing.Size(0, 13);
             this.lblItems.TabIndex = 3;
-            this.lblItems.Text = "label1";
             // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.btnBrowse);
-            this.groupBox1.Controls.Add(this.comboBox1);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.cboProjects);
+            this.groupBox1.Controls.Add(this.lblProjectImportFrom);
+            this.groupBox1.Controls.Add(this.txtActiveProject);
             this.groupBox1.Controls.Add(this.lblSelectedProject);
             this.groupBox1.Location = new System.Drawing.Point(283, 30);
             this.groupBox1.Name = "groupBox1";
@@ -109,44 +108,50 @@
             this.btnBrowse.TabIndex = 11;
             this.btnBrowse.Text = "&Browse…";
             this.btnBrowse.UseVisualStyleBackColor = false;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
-            // comboBox1
+            // cboProjects
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(13, 81);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(362, 21);
-            this.comboBox1.TabIndex = 3;
+            this.cboProjects.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cboProjects.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboProjects.FormattingEnabled = true;
+            this.cboProjects.Location = new System.Drawing.Point(13, 81);
+            this.cboProjects.Name = "cboProjects";
+            this.cboProjects.Size = new System.Drawing.Size(362, 21);
+            this.cboProjects.TabIndex = 3;
+            this.cboProjects.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cboProjects_DrawItem);
             // 
-            // label1
+            // lblProjectImportFrom
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 64);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "label1";
+            this.lblProjectImportFrom.AutoSize = true;
+            this.lblProjectImportFrom.Location = new System.Drawing.Point(10, 64);
+            this.lblProjectImportFrom.Name = "lblProjectImportFrom";
+            this.lblProjectImportFrom.Size = new System.Drawing.Size(59, 13);
+            this.lblProjectImportFrom.TabIndex = 2;
+            this.lblProjectImportFrom.Text = "Import from";
             // 
-            // textBox1
+            // txtActiveProject
             // 
-            this.textBox1.Location = new System.Drawing.Point(10, 37);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(365, 20);
-            this.textBox1.TabIndex = 1;
+            this.txtActiveProject.Location = new System.Drawing.Point(10, 37);
+            this.txtActiveProject.Name = "txtActiveProject";
+            this.txtActiveProject.ReadOnly = true;
+            this.txtActiveProject.Size = new System.Drawing.Size(365, 20);
+            this.txtActiveProject.TabIndex = 1;
             // 
             // lblSelectedProject
             // 
             this.lblSelectedProject.AutoSize = true;
             this.lblSelectedProject.Location = new System.Drawing.Point(7, 20);
             this.lblSelectedProject.Name = "lblSelectedProject";
-            this.lblSelectedProject.Size = new System.Drawing.Size(84, 13);
+            this.lblSelectedProject.Size = new System.Drawing.Size(139, 13);
             this.lblSelectedProject.TabIndex = 0;
-            this.lblSelectedProject.Text = "Selected project";
+            this.lblSelectedProject.Text = "Selected project ( import to )";
             // 
             // btnImport
             // 
             this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnImport.BackColor = System.Drawing.Color.DimGray;
+            this.btnImport.Enabled = false;
             this.btnImport.FlatAppearance.BorderColor = System.Drawing.SystemColors.ScrollBar;
             this.btnImport.FlatAppearance.BorderSize = 2;
             this.btnImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -178,6 +183,8 @@
             // 
             this.chOverride.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chOverride.AutoSize = true;
+            this.chOverride.Checked = true;
+            this.chOverride.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chOverride.Location = new System.Drawing.Point(410, 433);
             this.chOverride.Name = "chOverride";
             this.chOverride.Size = new System.Drawing.Size(103, 17);
@@ -219,9 +226,9 @@
         private Controls.SelectionPanel selectionPanel1;
         private System.Windows.Forms.Label lblItems;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ComboBox cboProjects;
+        private System.Windows.Forms.Label lblProjectImportFrom;
+        private System.Windows.Forms.TextBox txtActiveProject;
         private System.Windows.Forms.Label lblSelectedProject;
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.Button btnImport;

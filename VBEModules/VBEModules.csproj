@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\AboutCommand.cs" />
+    <Compile Include="Business\Component.cs" />
     <Compile Include="Business\Configurations\ConfigurationBase.cs" />
     <Compile Include="Business\Configurations\ConfigurationXmlFile.cs" />
     <Compile Include="Business\Controls\ISelectionPanel.cs" />
@@ -72,13 +73,17 @@
       <DependentUpon>ExportComponentsView.cs</DependentUpon>
     </Compile>
     <Compile Include="Business\ICommand.cs" />
+    <Compile Include="Business\Import\IImport.cs" />
     <Compile Include="Business\Import\ImportCommand.cs" />
+    <Compile Include="Business\Import\Models\ImportModel.cs" />
     <Compile Include="Business\Import\Views\ImportView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Business\Import\Views\ImportView.Designer.cs">
       <DependentUpon>ImportView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Business\Project.cs" />
+    <Compile Include="Business\Utils.cs" />
     <Compile Include="Controls\AboutView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +94,7 @@
     <Compile Include="Controls\CommandBars\MainMenu.cs" />
     <Compile Include="Controls\CommandBars\MenuItem.cs" />
     <Compile Include="Events\ExportEventHandler.cs" />
+    <Compile Include="Events\ImportEventHandler.cs" />
     <Compile Include="Extensions\CodeModuleSelection.cs" />
     <Compile Include="Extensions\CodePaneExtensions.cs" />
     <Compile Include="Extensions\Selection.cs" />
@@ -121,7 +127,6 @@
     <None Include="VbeComponents.snk" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Business\Import\Models\" />
     <Folder Include="Logging\" />
   </ItemGroup>
   <ItemGroup>

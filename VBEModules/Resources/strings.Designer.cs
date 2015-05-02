@@ -126,6 +126,43 @@ namespace VbeComponents.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The given path doesn&apos;t exists!
+        ///{0}.
+        /// </summary>
+        internal static string FolderDoesnExists {
+            get {
+                return ResourceManager.GetString("FolderDoesnExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a folder.
+        /// </summary>
+        internal static string ImportAddFolder {
+            get {
+                return ResourceManager.GetString("ImportAddFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import components.
+        /// </summary>
+        internal static string ImportFormMessageCaption {
+            get {
+                return ResourceManager.GetString("ImportFormMessageCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The selected folder doesn&apos;t have any valid VBA component!.
+        /// </summary>
+        internal static string InvalidComponentFolder {
+            get {
+                return ResourceManager.GetString("InvalidComponentFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Item.
         /// </summary>
         internal static string Item {

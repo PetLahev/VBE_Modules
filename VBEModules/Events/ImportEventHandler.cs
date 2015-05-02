@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Vbe.Interop;
 
 namespace VbeComponents.Events
 {
-    public delegate void ExportEventHandler(object sender, ExportEventArgs e);
+    public delegate void ImportEventHandler(object sender, ImportEventArgs e);
 
-    public class ExportEventArgs : EventArgs
+    public class ImportEventArgs : EventArgs
     {
         public bool Cancel { get; set; }
-        public IEnumerable<_VBComponent> SelectedComponents { get; set; }
+        public IEnumerable<Business.Component> SelectedComponents { get; set; }
         public string ProjectName { get; set; }
         public string Path { get; set; }
     }

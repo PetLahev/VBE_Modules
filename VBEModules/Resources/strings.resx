@@ -142,6 +142,21 @@ Are you sure?</value>
   <data name="ExportNoItemSelected" xml:space="preserve">
     <value>Select at least one component to export!</value>
   </data>
+  <data name="FolderDoesnExists" xml:space="preserve">
+    <value>The given path doesn't exists!
+{0}</value>
+    <comment>The argument is full path to given folder</comment>
+  </data>
+  <data name="ImportAddFolder" xml:space="preserve">
+    <value>Add a folder</value>
+    <comment>Default text on comboxox on Import form</comment>
+  </data>
+  <data name="ImportFormMessageCaption" xml:space="preserve">
+    <value>Import components</value>
+  </data>
+  <data name="InvalidComponentFolder" xml:space="preserve">
+    <value>The selected folder doesn't have any valid VBA component!</value>
+  </data>
   <data name="Item" xml:space="preserve">
     <value>Item</value>
   </data>

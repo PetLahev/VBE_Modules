@@ -87,11 +87,9 @@ namespace VbeComponents.Business.Export.Model
         ///  </summary>
         public void PathRequestHandler()
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog { ShowNewFolderButton = true };
-            DialogResult result = fbd.ShowDialog();
-
-            if (result == DialogResult.Cancel) return;
-            if (PathSelected != null) PathSelected(fbd.SelectedPath, null);
+            var retVal = Utils.DisplayFolderDialog();
+            if (retVal == null) return;
+            if (PathSelected != null) PathSelected(retVal, null);
         }
 
     }
