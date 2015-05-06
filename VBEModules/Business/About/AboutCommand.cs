@@ -1,7 +1,6 @@
 ﻿using System;
-using VbeComponents.Controls;
 
-namespace VbeComponents.Business
+namespace VbeComponents.Business.About
 {
     /// <summary>
     /// Responsible for displaying the 'About' dialog
@@ -14,9 +13,10 @@ namespace VbeComponents.Business
         /// </summary>
         public void Execute()
         {
-            AboutView frm = new AboutView();
-            frm.ShowDialog();
-            frm.Dispose();
+            using (var window = new AboutView())
+            {
+                window.ShowDialog();
+            }
         }
 
         public void Dispose()

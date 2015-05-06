@@ -1,4 +1,4 @@
-﻿namespace VbeComponents.Controls
+﻿namespace VbeComponents.Business.About
 {
     partial class AboutView
     {

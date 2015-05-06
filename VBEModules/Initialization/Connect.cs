@@ -3,7 +3,9 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Extensibility;
 using Microsoft.Vbe.Interop;
+using VbeComponents.Resources;
 
+// Thanks MZ-Tools and RubberDuck - https://github.com/retailcoder/Rubberduck
 namespace VbeComponents
 {    
     /// <summary>
@@ -16,7 +18,7 @@ namespace VbeComponents
     {
         private VBE _vbe;
         private AddIn _addIn;
-        private static Controls.CommandBars.MainMenu _menu;
+        private  Menus.MainMenu _appMainMenu;
 
         public void OnConnection(object application, ext_ConnectMode connectMode, object addInInst, ref Array custom)
         {
@@ -25,33 +27,30 @@ namespace VbeComponents
                 _vbe = (VBE)application;
                 _addIn = (AddIn)addInInst;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(string.Format("VBE Modules Add-inn could not be loaded!\n{0}", e.Message));
+                MessageBox.Show(string.Format(strings.AddInCouldNotBeLoaded, ex.Message));
             }
         }
 
         public void OnStartupComplete(ref Array custom)
         {
-            _menu = Controls.CommandBars.MainMenu.GetInstance(_vbe);
-            _menu.ButtonClickHandler -= new Controls.CommandBars.MainMenu.ButtonsClickDel(_menu_ButtonClickHandler);
-            _menu.ButtonClickHandler += new Controls.CommandBars.MainMenu.ButtonsClickDel(_menu_ButtonClickHandler);            
+            try
+            {
+                _appMainMenu = new Menus.MainMenu(_vbe, _addIn);
+                _appMainMenu.Initialize();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format(strings.AddInMenuCouldNotBeCreated, ex.Message));
+            }
         }
 
         public void OnDisconnection(ext_DisconnectMode removeMode, ref Array custom)
         {
-            if (removeMode != ext_DisconnectMode.ext_dm_UserClosed && removeMode != ext_DisconnectMode.ext_dm_HostShutdown) return;
-            try
-            {
-                _menu = Controls.CommandBars.MainMenu.GetInstance(_vbe);
-                _menu.RemoveMenu();
-            }
-            catch (Exception e)
-            {                
-                MessageBox.Show(string.Format("VBE Modules Add-inn could not be unloaded!\n{0}", e.Message));
-            }
+            Dispose(true);
         }
-        
+
         public void OnAddInsUpdate(ref Array custom)
         {
             // not used
@@ -62,19 +61,6 @@ namespace VbeComponents
             // not used
         }
 
-        /// <summary>
-        /// Common click event handler for all buttons under main menu.
-        /// Uses Command pattern to decouple logic
-        /// </summary>
-        /// <param name="sender">an instance of the IMenuItem class</param>
-        /// <param name="e"></param>
-        void _menu_ButtonClickHandler(object sender, EventArgs e)
-        {
-            Controls.CommandBars.IMenuItem btn = (Controls.CommandBars.IMenuItem)sender;
-            btn.Command.Execute();
-            btn.Dispose();
-        }
-        
         public void Dispose()
         {
             Dispose(true);
@@ -83,9 +69,9 @@ namespace VbeComponents
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing & _menu != null)
+            if (disposing & _appMainMenu != null)
             {
-                _menu.Dispose();
+                _appMainMenu.Dispose();
             }
         }
 

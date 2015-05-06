@@ -53,7 +53,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business\AboutCommand.cs" />
+    <Compile Include="Business\About\AboutCommand.cs" />
     <Compile Include="Business\Component.cs" />
     <Compile Include="Business\Configurations\ConfigurationBase.cs" />
     <Compile Include="Business\Configurations\ConfigurationXmlFile.cs" />
@@ -84,20 +84,19 @@
     </Compile>
     <Compile Include="Business\Project.cs" />
     <Compile Include="Business\Utils.cs" />
-    <Compile Include="Controls\AboutView.cs">
+    <Compile Include="Business\About\AboutView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\AboutView.Designer.cs">
+    <Compile Include="Business\About\AboutView.Designer.cs">
       <DependentUpon>AboutView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\CommandBars\IMenuItem.cs" />
-    <Compile Include="Controls\CommandBars\MainMenu.cs" />
-    <Compile Include="Controls\CommandBars\MenuItem.cs" />
-    <Compile Include="Events\EventSelection.cs" />
+    <Compile Include="Events\EventSelectionHandler.cs" />
     <Compile Include="Events\ExportEventHandler.cs" />
     <Compile Include="Events\ImportEventHandler.cs" />
     <Compile Include="Extensions\Selection.cs" />
     <Compile Include="Extensions\VbeExtensions.cs" />
+    <Compile Include="Menus\MainMenu.cs" />
+    <Compile Include="Menus\Menu.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -126,6 +125,7 @@
     <None Include="VbeComponents.snk" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controls\" />
     <Folder Include="Logging\" />
   </ItemGroup>
   <ItemGroup>
@@ -176,7 +176,7 @@
     <EmbeddedResource Include="Business\Import\Views\ImportView.resx">
       <DependentUpon>ImportView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\AboutView.resx">
+    <EmbeddedResource Include="Business\About\AboutView.resx">
       <DependentUpon>AboutView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

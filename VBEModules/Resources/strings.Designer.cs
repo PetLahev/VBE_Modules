@@ -61,6 +61,27 @@ namespace VbeComponents.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The VBE Component manager add-in could not be loaded!
+        ///{0}.
+        /// </summary>
+        internal static string AddInCouldNotBeLoaded {
+            get {
+                return ResourceManager.GetString("AddInCouldNotBeLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not create VBE Components manager menu!
+        ///Please review the error message.
+        ///{0}.
+        /// </summary>
+        internal static string AddInMenuCouldNotBeCreated {
+            get {
+                return ResourceManager.GetString("AddInMenuCouldNotBeCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to VBE Components manager.
         /// </summary>
         internal static string ApplicationMessageCaption {
