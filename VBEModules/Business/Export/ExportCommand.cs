@@ -42,7 +42,6 @@ namespace VbeComponents.Business.Export
             _model.PathSelected += new EventHandler(_model_PathSelected);
 
             _view = ExportView;
-            
             _view.PathSelecting += new Events.ExportEventHandler(_view_PathSelecting);
             _view.ExportRequestedRaised += new Events.ExportEventHandler(_view_ExportRequestedRaised);
             _view.PathValidating += new Events.ExportEventHandler(_view_PathValidating);
@@ -81,6 +80,11 @@ namespace VbeComponents.Business.Export
         private void _model_PathSelected(object sender, EventArgs e)
         {
             _view.Path = (string)sender;
+        }
+
+        public void Dispose()
+        {
+            
         }
 
     }

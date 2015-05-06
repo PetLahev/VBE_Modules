@@ -88,6 +88,15 @@ namespace VbeComponents.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No components in the project.
+        /// </summary>
+        internal static string ExceptionNoComponents {
+            get {
+                return ResourceManager.GetString("ExceptionNoComponents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Components could not be exported. 
         ///A COM exception was thrown: {0}&quot;.
         /// </summary>
@@ -145,11 +154,30 @@ namespace VbeComponents.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You are going to import {0} {1}
+        ///Are you sure?.
+        /// </summary>
+        internal static string ImportConfirmation {
+            get {
+                return ResourceManager.GetString("ImportConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import components.
         /// </summary>
         internal static string ImportFormMessageCaption {
             get {
                 return ResourceManager.GetString("ImportFormMessageCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select at least one component to import!.
+        /// </summary>
+        internal static string ImportNoItemSelected {
+            get {
+                return ResourceManager.GetString("ImportNoItemSelected", resourceCulture);
             }
         }
         
@@ -196,6 +224,24 @@ namespace VbeComponents.Resources {
         internal static string PathIsNotValid {
             get {
                 return ResourceManager.GetString("PathIsNotValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (valid, {0} components).
+        /// </summary>
+        internal static string ProjectValidated {
+            get {
+                return ResourceManager.GetString("ProjectValidated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (validating...).
+        /// </summary>
+        internal static string ProjectValidating {
+            get {
+                return ResourceManager.GetString("ProjectValidating", resourceCulture);
             }
         }
         

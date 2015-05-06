@@ -6,14 +6,14 @@ namespace VbeComponents.Business.Import
 {
     public interface IImport
     {
-        // <summary>Sets/Gets a selected path from where components will be imported </summary>
-        string Path { get; set; }
-
         /// <summary>Sets/Gets the active project name </summary>
         string ProjectName { get; set; }
 
         /// <summary>Sets/Gets list of projects to import from </summary>
-        IEnumerable<string> Projects { get; set; }
+        IList<Project> Projects { get; set; }
+
+        /// <summary>Sets/Gets a selected project on a view</summary>
+        Project SelectedProject { get; set; }
 
         /// <summary>Sets/Gets all available items (classes, modules, forms) that can be imported </summary>
         IEnumerable<Component> Items { get; set; }

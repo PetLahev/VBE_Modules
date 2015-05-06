@@ -36,17 +36,17 @@ namespace VbeComponents.Business
             return files.Any(x => x.EndsWith(".cls") || x.EndsWith(".bas") || x.EndsWith(".frm"));
         }
 
-        public static string DisplayFolderDialog()
+        public static string DisplayFolderDialog(bool displayNewFolderButton = true)
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog { ShowNewFolderButton = true };
+            FolderBrowserDialog fbd = new FolderBrowserDialog { ShowNewFolderButton = displayNewFolderButton };
             DialogResult result = fbd.ShowDialog();
             return result == DialogResult.OK ? fbd.SelectedPath : null;
         }
 
         /// <summary>
-        /// 
+        /// Gets all valid VBA components from given path
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">a path where to get components from</param>
         /// <returns></returns>
         public static IEnumerable<Component> GetComponents(string path )
         {

@@ -99,6 +99,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AboutView";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "About VBE Components Manager";
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 
 namespace VbeComponents.Business.Configurations
@@ -38,6 +40,23 @@ namespace VbeComponents.Business.Configurations
         {
             XmlNode nd = GetProject(projectName);
             return nd == null ? null : nd.SelectSingleNode("Path").InnerText;
+        }
+
+        public override IList<Project> GetProjects()
+        {
+            XmlNodeList list =  _doc.SelectNodes(string.Format(".//VBProject"));
+            if (list == null) return null;
+
+            var retVal =  list.Cast<XmlNode>()
+                .Select(
+                    x =>
+                        new Project()
+                        {
+                            Name = x.Attributes["name"].Value,
+                            Path = x.SelectSingleNode("Path").InnerText
+                        })
+                .ToList();
+            return retVal;
         }
 
         /// <summary>

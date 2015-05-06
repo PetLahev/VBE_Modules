@@ -12,7 +12,7 @@ namespace VbeComponents
     /// Keep It Simple! 
     /// </summary>
     [ComVisible(true), Guid("59507bb9-1380-406e-929d-ed5030f7b1bf"), ProgId("VBEComponents.Connect")]
-    public class Connect : IDTExtensibility2
+    public class Connect : IDTExtensibility2, IDisposable
     {
         private VBE _vbe;
         private AddIn _addIn;
@@ -72,6 +72,21 @@ namespace VbeComponents
         {
             Controls.CommandBars.IMenuItem btn = (Controls.CommandBars.IMenuItem)sender;
             btn.Command.Execute();
+            btn.Dispose();
+        }
+        
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing & _menu != null)
+            {
+                _menu.Dispose();
+            }
         }
 
     }

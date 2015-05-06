@@ -37,6 +37,24 @@ namespace VbeComponents.Extensions
             return vbe.ActiveVBProject.VBComponents.Cast<VBComponent>();
         }
 
+        public static void RemoveComponent(this VBE vbe, string componentName)
+        {
+            if (string.IsNullOrWhiteSpace(componentName)) return;
+            string name = componentName;
+            if (name.Contains("."))
+            {
+                name = componentName.Substring(0, componentName.IndexOf(".", StringComparison.Ordinal));
+            }
+
+            var component = vbe.ActiveVBProject.VBComponents.Cast<VBComponent>().FirstOrDefault(x => x.Name == name);
+            if (component == null) return;
+
+            if (component.Type != vbext_ComponentType.vbext_ct_Document)
+                vbe.ActiveVBProject.VBComponents.Remove(component);
+            //else
+                // Todo: Clear all instead of remove the component 
+        }
+
         /// <summary>
         /// 
         /// </summary>

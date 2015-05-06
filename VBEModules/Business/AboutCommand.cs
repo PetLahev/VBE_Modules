@@ -1,4 +1,5 @@
-﻿using VbeComponents.Controls;
+﻿using System;
+using VbeComponents.Controls;
 
 namespace VbeComponents.Business
 {
@@ -7,7 +8,6 @@ namespace VbeComponents.Business
     /// </summary>
     public class AboutCommand : ICommand
     {
-
         /// <summary>
         /// Displays the About form of the AddIn
         /// I didn't bother with a receiver for such simple job
@@ -15,7 +15,13 @@ namespace VbeComponents.Business
         public void Execute()
         {
             AboutView frm = new AboutView();
-            frm.ShowDialog();            
+            frm.ShowDialog();
+            frm.Dispose();
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }

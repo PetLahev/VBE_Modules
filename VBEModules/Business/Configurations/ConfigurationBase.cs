@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace VbeComponents.Business.Configurations
 {
@@ -25,6 +26,8 @@ namespace VbeComponents.Business.Configurations
         /// <returns>true if succeeded, otherwise false</returns>
         public abstract bool RemoveProject(string projectName);
 
+        public abstract IList<Project> GetProjects();
+        
         /// <summary>
         /// Checks if given path exists at the end machine
         /// </summary>

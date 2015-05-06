@@ -8,7 +8,7 @@ namespace VbeComponents.Controls.CommandBars
     /// <summary>
     /// Defines interface for a menu item
     /// </summary>
-    public interface IMenuItem
+    public interface IMenuItem : IDisposable
     {
         string Name { get; set; }
         string DisplayName { get; set; }

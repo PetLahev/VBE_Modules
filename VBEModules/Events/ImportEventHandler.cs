@@ -9,7 +9,7 @@ namespace VbeComponents.Events
     {
         public bool Cancel { get; set; }
         public IEnumerable<Business.Component> SelectedComponents { get; set; }
+        public bool Override { get; set; }
         public string ProjectName { get; set; }
-        public string Path { get; set; }
     }
 }

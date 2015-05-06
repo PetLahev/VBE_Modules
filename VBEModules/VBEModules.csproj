@@ -93,10 +93,9 @@
     <Compile Include="Controls\CommandBars\IMenuItem.cs" />
     <Compile Include="Controls\CommandBars\MainMenu.cs" />
     <Compile Include="Controls\CommandBars\MenuItem.cs" />
+    <Compile Include="Events\EventSelection.cs" />
     <Compile Include="Events\ExportEventHandler.cs" />
     <Compile Include="Events\ImportEventHandler.cs" />
-    <Compile Include="Extensions\CodeModuleSelection.cs" />
-    <Compile Include="Extensions\CodePaneExtensions.cs" />
     <Compile Include="Extensions\Selection.cs" />
     <Compile Include="Extensions\VbeExtensions.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -200,9 +199,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Document.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\receipt_import.bmp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\import_button.bmp" />

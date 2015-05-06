@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Navigation;
 using VbeComponents.Business;
 using Microsoft.Office.Core;
 using Microsoft.Vbe.Interop;
@@ -16,7 +17,7 @@ namespace VbeComponents.Controls.CommandBars
     /// <summary>
     /// Provides basic functionality for managing the Add-in menu
     /// </summary>
-    internal class MainMenu
+    internal class MainMenu : IDisposable
     {        
         /// <summary>
         /// Gets the name of the main menu of this Add-in
@@ -60,41 +61,84 @@ namespace VbeComponents.Controls.CommandBars
         /// </summary>
         private void BuildMenu()
         {            
-            CommandBar standardCommandBar, menuCommandBar, toolsCommandBar;
+            CommandBar menuCommandBar, toolsCommandBar;
             CommandBarControl toolsCommandBarControl;
             
             int position = 0;
 
             try
-            {                
+            {
                 // Retrieve some built-in commandbars
-                standardCommandBar = _vbe.CommandBars[StandardCommandbarName];
                 menuCommandBar = _vbe.CommandBars[MenubarCommandbarName];
                 toolsCommandBar = _vbe.CommandBars[ToolsCommandbarName];
 
                 // Calculate the position of a new commandbar popup to the right of the "Tools" menu
-                toolsCommandBarControl = (CommandBarControl)toolsCommandBar.Parent;
-                position = toolsCommandBarControl.Index +1;                
+                toolsCommandBarControl = (CommandBarControl) toolsCommandBar.Parent;
+                position = toolsCommandBarControl.Index + 1;
 
                 // Add a new AddIn menu to VBE toolbar 
-                _addInMenu = (CommandBarPopup)menuCommandBar.Controls.Add(MsoControlType.msoControlPopup, System.Type.Missing, System.Type.Missing, position, true);
+                _addInMenu =
+                    (CommandBarPopup)
+                        menuCommandBar.Controls.Add(MsoControlType.msoControlPopup, System.Type.Missing,
+                            System.Type.Missing, position, true);
                 _addInMenu.CommandBar.Name = AddinMenuName;
                 _addInMenu.Caption = "Com&ponents";
                 _addInMenu.Visible = true;
 
                 IList<IMenuItem> items = new List<IMenuItem>();
-                items.Add(new MenuItem() 
-                    { DisplayName = "About", Name = "btnAbout", IconId = 487, Order = 3, HasSeparator = true, Image = Properties.Resources.about_ico,  Command = new AboutCommand() });
-                items.Add(new MenuItem() 
-                    { DisplayName = "Import", Name = "btnImport", IconId = 1591, Order = 2, HasSeparator = false, Image  = Properties.Resources.import_button,  Command = new ImportCommand(_vbe) });
-                items.Add(new MenuItem() 
-                    { DisplayName = "Export", Name = "btnExport", IconId = 1590, Order = 1, HasSeparator = false, Image = Properties.Resources.export_button,  Command = new ExportCommand(_vbe) });
+                items.Add(new MenuItem()
+                {
+                    DisplayName = "About",
+                    Name = "btnAbout",
+                    IconId = 487,
+                    Order = 3,
+                    HasSeparator = true,
+                    Image = Properties.Resources.about_ico,
+                    Command = new AboutCommand()
+                });
+                items.Add(new MenuItem()
+                {
+                    DisplayName = "Import",
+                    Name = "btnImport",
+                    IconId = 1591,
+                    Order = 2,
+                    HasSeparator = false,
+                    Image = Properties.Resources.import_button,
+                    Command = new ImportCommand(_vbe)
+                });
+                items.Add(new MenuItem()
+                {
+                    DisplayName = "Export",
+                    Name = "btnExport",
+                    IconId = 1590,
+                    Order = 1,
+                    HasSeparator = false,
+                    Image = Properties.Resources.export_button,
+                    Command = new ExportCommand(_vbe)
+                });
 
                 AddMenuItemToMainMenu(items);
+
+                CommandBarControl commandBarControl = _addInMenu.Controls.Add(MsoControlType.msoControlButton);
+                CommandBarButton cmdBtn = (CommandBarButton)commandBarControl;
+
+                cmdBtn.Style = MsoButtonStyle.msoButtonIconAndCaption;
+                cmdBtn.Caption = "Test";
+                cmdBtn.BeginGroup = true;
+                
+                cmdBtn.Click +=new _CommandBarButtonEvents_ClickEventHandler(myTestClick);
             }
-            catch (Exception)
-            { throw; }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, strings.ApplicationMessageCaption, MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
       
+        }
+
+        void myTestClick(CommandBarButton ctrl, ref bool cancelDefault)
+        {
+            new AboutView().ShowDialog();
         }
 
         /// <summary>
@@ -147,13 +191,14 @@ namespace VbeComponents.Controls.CommandBars
 
                     cmdBtn.BeginGroup = item.HasSeparator;
                     cmdBtn.Tag = item.Name;
-                
+
+                    cmdBtn.Click -= new _CommandBarButtonEvents_ClickEventHandler(cmdBtn_Click);
                     cmdBtn.Click += new _CommandBarButtonEvents_ClickEventHandler(cmdBtn_Click);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show(string.Format(""), 
+                MessageBox.Show(ex.Message, 
                     strings.ApplicationMessageCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -175,17 +220,31 @@ namespace VbeComponents.Controls.CommandBars
         /// <param name="cancelDefault"></param>
         void cmdBtn_Click(CommandBarButton ctrl, ref bool cancelDefault)
         {
-            if (_vbe.ActiveVBProject.Protection == vbext_ProjectProtection.vbext_pp_locked)
+            try
             {
-                MessageBox.Show(string.Format(strings.ProtectedProject, _vbe.ActiveVBProject.Name), 
-                    strings.ApplicationMessageCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
+                if (_vbe.ActiveVBProject.Protection == vbext_ProjectProtection.vbext_pp_locked)
+                {
+                    MessageBox.Show(string.Format(strings.ProtectedProject, _vbe.ActiveVBProject.Name),
+                        strings.ApplicationMessageCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
 
-            if (ButtonClickHandler == null) return;
-            if ( _menuItems == null || !_menuItems.ContainsKey(ctrl.Tag) ) return;
-            IMenuItem item = _menuItems[ctrl.Tag];
-            ButtonClickHandler(item, new EventArgs());
+                if (ButtonClickHandler == null) return;
+                if (_menuItems == null || !_menuItems.ContainsKey(ctrl.Tag)) return;
+                IMenuItem item = _menuItems[ctrl.Tag];
+                ButtonClickHandler(item, new EventArgs());
+                item.Dispose();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, strings.ApplicationMessageCaption, MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        public void Dispose()
+        {
+            _instance.Dispose();            
         }
     }
 }

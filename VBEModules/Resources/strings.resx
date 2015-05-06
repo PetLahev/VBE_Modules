@@ -126,6 +126,9 @@
   <data name="DefaultPathValue" xml:space="preserve">
     <value>Specify path to export</value>
   </data>
+  <data name="ExceptionNoComponents" xml:space="preserve">
+    <value>No components in the project</value>
+  </data>
   <data name="ExportComExceptionText" xml:space="preserve">
     <value>Components could not be exported. 
 A COM exception was thrown: {0}"</value>
@@ -151,8 +154,16 @@ Are you sure?</value>
     <value>Add a folder</value>
     <comment>Default text on comboxox on Import form</comment>
   </data>
+  <data name="ImportConfirmation" xml:space="preserve">
+    <value>You are going to import {0} {1}
+Are you sure?</value>
+    <comment>The first argument is number and the second argument is the text Item or Items</comment>
+  </data>
   <data name="ImportFormMessageCaption" xml:space="preserve">
     <value>Import components</value>
+  </data>
+  <data name="ImportNoItemSelected" xml:space="preserve">
+    <value>Select at least one component to import!</value>
   </data>
   <data name="InvalidComponentFolder" xml:space="preserve">
     <value>The selected folder doesn't have any valid VBA component!</value>
@@ -170,6 +181,13 @@ Are you sure?</value>
   <data name="PathIsNotValid" xml:space="preserve">
     <value>The given path is not valid!
 Please correct.</value>
+  </data>
+  <data name="ProjectValidated" xml:space="preserve">
+    <value>(valid, {0} components)</value>
+    <comment>The argument is integer</comment>
+  </data>
+  <data name="ProjectValidating" xml:space="preserve">
+    <value>(validating...)</value>
   </data>
   <data name="ProtectedProject" xml:space="preserve">
     <value>The selected project '{0}' is protected.
