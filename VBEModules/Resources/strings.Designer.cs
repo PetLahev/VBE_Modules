@@ -82,6 +82,23 @@ namespace VbeComponents.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to VBE Components manager is open source  VBE add-in for Microsoft Office applications.
+        ///
+        ///You can 
+        ///* Export components from an active VBA project
+        ///* Import components to an active VBA project
+        ///* Remove components from an active VBA project
+        ///
+        ///All done with user friendly UI. 
+        ///It&apos;s much easier than what you were used to!.
+        /// </summary>
+        internal static string AppDescription {
+            get {
+                return ResourceManager.GetString("AppDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to VBE Components manager.
         /// </summary>
         internal static string ApplicationMessageCaption {
@@ -273,6 +290,16 @@ namespace VbeComponents.Resources {
         internal static string ProtectedProject {
             get {
                 return ResourceManager.GetString("ProtectedProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This will not happen without big influence from RubberDuck VBE add-in, MZ-Tools VBE add-in and GitHub. 
+        ///Thank YOU guys!.
+        /// </summary>
+        internal static string ThanksContributtors {
+            get {
+                return ResourceManager.GetString("ThanksContributtors", resourceCulture);
             }
         }
     }

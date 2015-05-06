@@ -128,6 +128,17 @@ Please review the error message.
 {0}</value>
     <comment>The argument is exception message</comment>
   </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>VBE Components manager is open source  VBE add-in for Microsoft Office applications.
+
+You can 
+* Export components from an active VBA project
+* Import components to an active VBA project
+* Remove components from an active VBA project
+
+All done with user friendly UI. 
+It's much easier than what you were used to!</value>
+  </data>
   <data name="ApplicationMessageCaption" xml:space="preserve">
     <value>VBE Components manager</value>
   </data>
@@ -204,5 +215,9 @@ Please correct.</value>
     <value>The selected project '{0}' is protected.
 You cannot import/export anything to protected projects.</value>
     <comment>The argument is name of the selected project</comment>
+  </data>
+  <data name="ThanksContributtors" xml:space="preserve">
+    <value>This will not happen without big influence from RubberDuck VBE add-in, MZ-Tools VBE add-in and GitHub. 
+Thank YOU guys!</value>
   </data>
 </root>

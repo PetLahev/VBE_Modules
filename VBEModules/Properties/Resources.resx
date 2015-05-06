@@ -142,4 +142,19 @@
   <data name="Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Module.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Ducky" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ducky.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ducky1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ducky.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_github" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon-github.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RD_InstallBanner" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RD-InstallBanner.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="mztools" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mztools.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

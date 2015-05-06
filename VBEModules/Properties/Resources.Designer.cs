@@ -91,6 +91,26 @@ namespace VbeComponents.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Ducky {
+            get {
+                object obj = ResourceManager.GetObject("Ducky", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ducky1 {
+            get {
+                object obj = ResourceManager.GetObject("Ducky1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap export_button {
@@ -123,6 +143,16 @@ namespace VbeComponents.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icon_github {
+            get {
+                object obj = ResourceManager.GetObject("icon_github", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap import_button {
             get {
                 object obj = ResourceManager.GetObject("import_button", resourceCulture);
@@ -136,6 +166,26 @@ namespace VbeComponents.Properties {
         internal static System.Drawing.Bitmap Module {
             get {
                 object obj = ResourceManager.GetObject("Module", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap mztools {
+            get {
+                object obj = ResourceManager.GetObject("mztools", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RD_InstallBanner {
+            get {
+                object obj = ResourceManager.GetObject("RD_InstallBanner", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
