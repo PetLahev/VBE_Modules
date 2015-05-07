@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.Vbe.Interop;
-using VbeComponents.Business.Controls;
+using VbeComponents.Controls;
 using VbeComponents.Events;
 using VbeComponents.Resources;
 
@@ -13,15 +12,16 @@ namespace VbeComponents.Business.Export.View
 {
     public partial class ExportComponentsView : Form, IExport
     {
-        private IEnumerable<_VBComponent> _componenets;
+        private IEnumerable<Business.Component> _componenets;
         private ISelectionPanel _panel;
+        private int _counter = 0;
+        private Font _fnRegular = new Font("Microsoft Sans Serif", 9, FontStyle.Regular);
+        private Font _fnItalic = new Font("Microsoft Sans Serif", 9, FontStyle.Italic);
 
         public event ExportEventHandler PathSelecting;
         public event ExportEventHandler PathValidating;
         public event ExportEventHandler ExportRequestedRaised;
-
-        private int _counter = 0;
-
+        
         public ExportComponentsView()
         {
             InitializeComponent();
@@ -31,71 +31,14 @@ namespace VbeComponents.Business.Export.View
             this.imageList1.Images.Add("document", Properties.Resources.document);
             tw.ImageList = this.imageList1;
             _panel = this.selectionPanel1;
-            _panel.SelectionChanged += new EventHandler(selectionPanel1_SelectionChanged);
+            _panel.SelectionChanged += new EventHandler<Events.SelectionEventArgs>(selectionPanel1_SelectionChanged);
         }
 
         void selectionPanel1_SelectionChanged(object sender, EventArgs e)
         {
-            SelectionPanelOptions option = (SelectionPanelOptions) sender;
-            TreeNode parentNode = null;
-            UncheckAllNodes(tw.Nodes);
-            switch (option)
-            {
-                case SelectionPanelOptions.All:
-                    CheckAllNodes(tw.Nodes);
-                    break;
-                case SelectionPanelOptions.Modules:
-                    parentNode = tw.Nodes["Modules"];
-                    parentNode.Checked = true;
-                    CheckChildren(parentNode, true);
-                    break;
-                case SelectionPanelOptions.Forms:
-                    parentNode = tw.Nodes["Forms"];
-                    parentNode.Checked = true;
-                    CheckChildren(parentNode, true);
-                    break;
-                case SelectionPanelOptions.Classes:
-                    parentNode = tw.Nodes["Classes"];
-                    parentNode.Checked = true;
-                    CheckChildren(parentNode, true);
-                    break;
-                case SelectionPanelOptions.Documents:
-                    parentNode = tw.Nodes["Documents"];
-                    parentNode.Checked = true;
-                    CheckChildren(parentNode, true);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            lblItems.Text = string.Format(strings.NumberOfComponentsPlusSelected, _counter, SelectedItems.Count());            
         }
-
-        private void CheckAllNodes(TreeNodeCollection nodes)
-        {
-            foreach (TreeNode node in nodes)
-            {
-                node.Checked = true;
-                CheckChildren(node, true);
-            }
-        }
-
-        private void UncheckAllNodes(TreeNodeCollection nodes)
-        {
-            foreach (TreeNode node in nodes)
-            {
-                node.Checked = false;
-                CheckChildren(node, false);
-            }
-        }
-
-        private void CheckChildren(TreeNode rootNode, bool isChecked)
-        {
-            foreach (TreeNode node in rootNode.Nodes)
-            {
-                CheckChildren(node, isChecked);
-                node.Checked = isChecked;
-            }
-        }
-
+        
         public string Path
         {
             get { return txtExportPath.Text; }
@@ -108,7 +51,7 @@ namespace VbeComponents.Business.Export.View
                 }
 
                 txtExportPath.Text = value;
-                txtExportPath.Font = new Font("Microsoft Sans Serif", 9, FontStyle.Regular);
+                txtExportPath.Font = _fnRegular;
                 txtExportPath.ForeColor = Color.Black;
             }
         }
@@ -122,11 +65,11 @@ namespace VbeComponents.Business.Export.View
         private void AddDefaultPathText()
         {
             txtExportPath.Text = strings.DefaultPathValue;
-            txtExportPath.Font = new Font("Microsoft Sans Serif", 9, FontStyle.Italic);
+            txtExportPath.Font = _fnItalic;
             txtExportPath.ForeColor = Color.Gray;
         }
 
-        public IEnumerable<_VBComponent> Items
+        public IEnumerable<Business.Component>Items
         {
             get { return _componenets; }
             set
@@ -134,9 +77,14 @@ namespace VbeComponents.Business.Export.View
                 tw.Nodes.Clear();
                 _counter = 0;
                 _componenets = value;
-                if (_componenets == null) return;
 
-                _panel.ProjectComponets = _componenets;
+                if (_componenets == null)
+                {
+                    _panel.Nodes = null;
+                    return;
+                }
+
+                _panel.ProjectComponets =  _componenets;
                 var vbComponents =  GetComponnets(vbext_ComponentType.vbext_ct_StdModule);
                 AddComponent(vbComponents, "Modules", "module");
 
@@ -148,26 +96,27 @@ namespace VbeComponents.Business.Export.View
 
                 vbComponents = GetComponnets(vbext_ComponentType.vbext_ct_Document);
                 AddComponent(vbComponents, "Documents", "document");
-                
-                CheckAllNodes(tw.Nodes);
+                                
                 lblItems.Text = string.Format(strings.NumberOfComponentsPlusSelected, _counter, _counter);
                 tw.ExpandAll();
+                Business.TreeViewHelper.CheckAllNodes(tw, null);
+                _panel.Nodes = tw.Nodes;                
             }
         }
 
-        private _VBComponent[] GetComponnets(vbext_ComponentType componentType)
+        private Business.Component[] GetComponnets(vbext_ComponentType componentType)
         {
-            var component = _componenets.Cast<_VBComponent>().Where(x => x.Type == componentType);
-            var vbComponents = component as _VBComponent[] ?? component.ToArray();
+            var component = _componenets.Where(x => x.Type == componentType);
+            var vbComponents = component as Business.Component[] ?? component.ToArray();
             return vbComponents;
         }
 
-        private void AddComponent(_VBComponent[] items, string nodeText, string imageKey)
+        private void AddComponent(Business.Component[] items, string nodeText, string imageKey)
         {
             if (items.Any())
             {
                 var parentNode = tw.Nodes.Add(key: nodeText, text: string.Format("{0} ({1})", nodeText, items.Count()), imageKey: imageKey);
-                foreach (_VBComponent item in items)
+                foreach (Business.Component item in items)
                 {
                     TreeNode nd=  parentNode.Nodes.Add(key: item.Name, text: item.Name, imageKey: imageKey);
                     nd.Tag = item;
@@ -176,17 +125,11 @@ namespace VbeComponents.Business.Export.View
             }
         }
 
-        public IEnumerable<_VBComponent> SelectedItems
+        public IEnumerable<Business.Component> SelectedItems
         {
             get
             {
-                var checkedNodes = tw.Nodes
-                                .OfType<TreeNode>()
-                                .SelectMany(x => GetNodeAndChildren(x))
-                                .Where(x => x.Checked && x.Parent != null)
-                                .Select(x => x.Tag as VBComponent)
-                                .ToArray();
-                return checkedNodes;
+                return Business.TreeViewHelper.GetCheckedNodes(tw, null);
             }
             set
             {
@@ -241,14 +184,6 @@ namespace VbeComponents.Business.Export.View
             if (args.Cancel) return;
             this.Close();
         }
-
-        IEnumerable<TreeNode> GetNodeAndChildren(TreeNode node)
-        {
-            return new[] { node }.Concat(node.Nodes
-                                            .OfType<TreeNode>()
-                                            .SelectMany(x => GetNodeAndChildren(x)));
-        }
-
-
+        
     }
 }

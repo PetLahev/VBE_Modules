@@ -57,11 +57,12 @@
     <Compile Include="Business\Component.cs" />
     <Compile Include="Business\Configurations\ConfigurationBase.cs" />
     <Compile Include="Business\Configurations\ConfigurationXmlFile.cs" />
-    <Compile Include="Business\Controls\ISelectionPanel.cs" />
-    <Compile Include="Business\Controls\SelectionPanel.cs">
+    <Compile Include="Business\TreeViewHelper.cs" />
+    <Compile Include="Controls\ISelectionPanel.cs" />
+    <Compile Include="Controls\SelectionPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Business\Controls\SelectionPanel.Designer.cs">
+    <Compile Include="Controls\SelectionPanel.Designer.cs">
       <DependentUpon>SelectionPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Business\Export\ExportCommand.cs" />
@@ -90,9 +91,10 @@
     <Compile Include="Business\About\AboutView.Designer.cs">
       <DependentUpon>AboutView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Events\EventSelectionHandler.cs" />
+    <Compile Include="Events\SelectionEventHandler.cs" />
     <Compile Include="Events\ExportEventHandler.cs" />
     <Compile Include="Events\ImportEventHandler.cs" />
+    <Compile Include="Events\TreeNodeEventHandler.cs" />
     <Compile Include="Extensions\Selection.cs" />
     <Compile Include="Extensions\VbeExtensions.cs" />
     <Compile Include="Menus\MainMenu.cs" />
@@ -125,7 +127,6 @@
     <None Include="VbeComponents.snk" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\" />
     <Folder Include="Logging\" />
   </ItemGroup>
   <ItemGroup>
@@ -167,7 +168,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Business\Controls\SelectionPanel.resx">
+    <EmbeddedResource Include="Controls\SelectionPanel.resx">
       <DependentUpon>SelectionPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Business\Export\View\ExportComponentsView.resx">

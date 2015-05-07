@@ -1,4 +1,4 @@
-﻿namespace VbeComponents.Business.Controls
+﻿namespace VbeComponents.Controls
 {
     partial class SelectionPanel
     {
@@ -16,6 +16,8 @@
             if (disposing && (components != null))
             {
                 components.Dispose();
+                _fnBold.Dispose();
+                _fnUnderlined.Dispose();
             }
             base.Dispose(disposing);
         }

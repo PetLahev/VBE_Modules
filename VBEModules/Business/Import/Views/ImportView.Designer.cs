@@ -44,7 +44,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.chbOverride = new System.Windows.Forms.CheckBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.selectionPanel1 = new VbeComponents.Business.Controls.SelectionPanel();
+            this.selectionPanel1 = new VbeComponents.Controls.SelectionPanel();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 

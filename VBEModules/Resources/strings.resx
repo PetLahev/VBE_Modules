@@ -142,6 +142,11 @@ It's much easier than what you were used to!</value>
   <data name="ApplicationMessageCaption" xml:space="preserve">
     <value>VBE Components manager</value>
   </data>
+  <data name="ComponentTypeCannotBeConverted" xml:space="preserve">
+    <value>The given component type '{0}' cannot be converted!
+Handle tjhis type in the calling method.</value>
+    <comment>The argument is an option form enumeration</comment>
+  </data>
   <data name="ConfigIsNull" xml:space="preserve">
     <value>The instance of the configuration file cannot be null</value>
   </data>

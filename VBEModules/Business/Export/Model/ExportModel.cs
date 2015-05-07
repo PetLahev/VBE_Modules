@@ -39,7 +39,7 @@ namespace VbeComponents.Business.Export.Model
         {
             try
             {
-                List<_VBComponent> comps = args.SelectedComponents.ToList();
+                List<_VBComponent> comps = args.SelectedComponents.Select(x => x.VbComponent).ToList();
                 foreach (var component in comps)
                 {
                     string fullPath = Path.Combine(args.Path, component.Name + VbeExtensions.GetExtension(component.Type));

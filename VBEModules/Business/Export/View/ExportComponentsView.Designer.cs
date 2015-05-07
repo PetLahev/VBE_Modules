@@ -42,7 +42,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtProjectName = new System.Windows.Forms.TextBox();
             this.lblTopBanner = new System.Windows.Forms.Label();
-            this.selectionPanel1 = new VbeComponents.Business.Controls.SelectionPanel();
+            this.selectionPanel1 = new VbeComponents.Controls.SelectionPanel();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 

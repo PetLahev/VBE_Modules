@@ -20,10 +20,10 @@ namespace VbeComponents.Business.Export
         string ProjectName { get; set; }
 
         /// <summary>Sets/Gets all available items (classes, modules, forms) that can be exported </summary>
-        IEnumerable<_VBComponent> Items { get; set; }
+        IEnumerable<Business.Component> Items { get; set; }
 
         /// <summary>Sets/Gets items that are select for export </summary>
-        IEnumerable<_VBComponent> SelectedItems { get; set; }
+        IEnumerable<Business.Component> SelectedItems { get; set; }
 
         /// <summary>Shows up the view and returns how the view was closed</summary>
         DialogResult ShowView();

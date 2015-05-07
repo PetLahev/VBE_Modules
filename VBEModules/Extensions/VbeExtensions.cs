@@ -37,6 +37,18 @@ namespace VbeComponents.Extensions
             return vbe.ActiveVBProject.VBComponents.Cast<VBComponent>();
         }
 
+        /// <summary>
+        /// Returns all components from active VB project converted to business Component object
+        /// </summary>
+        /// <param name="vbe">instance of he VBE editor</param>
+        /// <returns>collection of all components from the given project</returns>
+        public static IEnumerable<Business.Component> GetAsComponents(this VBE vbe)
+        {
+
+            var vbComps = vbe.ActiveVBProject.VBComponents.Cast<VBComponent>();
+            return vbComps.ToList().ConvertAll(x => new Business.Component(x));
+        }
+
         public static void RemoveComponent(this VBE vbe, string componentName)
         {
             if (string.IsNullOrWhiteSpace(componentName)) return;

@@ -108,6 +108,16 @@ namespace VbeComponents.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The given component type &apos;{0}&apos; cannot be converted!
+        ///Handle tjhis type in the calling method..
+        /// </summary>
+        internal static string ComponentTypeCannotBeConverted {
+            get {
+                return ResourceManager.GetString("ComponentTypeCannotBeConverted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The instance of the configuration file cannot be null.
         /// </summary>
         internal static string ConfigIsNull {
