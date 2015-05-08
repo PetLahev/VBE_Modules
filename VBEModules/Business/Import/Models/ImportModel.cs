@@ -197,7 +197,7 @@ namespace VbeComponents.Business.Import.Models
                 if (isValid) isValid = Utils.HasComponent(project.Path);
                 project.Validating = false;
                 project.Valid = isValid;
-                project.Components = Utils.GetComponents(project.Path);
+                if (isValid) project.Components = Utils.GetComponents(project.Path);
                 if (ValidProjectAdded != null) ValidProjectAdded(project, null);
             }
         }
