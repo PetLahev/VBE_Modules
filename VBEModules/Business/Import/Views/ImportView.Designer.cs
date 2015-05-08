@@ -68,6 +68,7 @@
             this.tw.Name = "tw";
             this.tw.Size = new System.Drawing.Size(258, 398);
             this.tw.TabIndex = 1;
+            this.tw.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tw_AfterCheck);            
             // 
             // lblItems
             // 
@@ -213,6 +214,7 @@
             // 
             this.selectionPanel1.Location = new System.Drawing.Point(12, 12);
             this.selectionPanel1.Name = "selectionPanel1";
+            this.selectionPanel1.Nodes = null;
             this.selectionPanel1.Size = new System.Drawing.Size(274, 18);
             this.selectionPanel1.TabIndex = 2;
             // 

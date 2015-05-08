@@ -221,6 +221,10 @@ Please correct.</value>
 You cannot import/export anything to protected projects.</value>
     <comment>The argument is name of the selected project</comment>
   </data>
+  <data name="SuccessfullyExported" xml:space="preserve">
+    <value>Successfully exported {0} components.</value>
+    <comment>The argument is num of components</comment>
+  </data>
   <data name="ThanksContributtors" xml:space="preserve">
     <value>This will not happen without big influence from RubberDuck VBE add-in, MZ-Tools VBE add-in and GitHub. 
 Thank YOU guys!</value>

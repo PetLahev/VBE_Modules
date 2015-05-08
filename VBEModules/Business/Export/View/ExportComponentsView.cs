@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Microsoft.Vbe.Interop;
 using VbeComponents.Controls;
 using VbeComponents.Events;
 using VbeComponents.Resources;
@@ -12,7 +11,7 @@ namespace VbeComponents.Business.Export.View
 {
     public partial class ExportComponentsView : Form, IExport
     {
-        private IEnumerable<Business.Component> _componenets;
+        private IEnumerable<Business.Component> _components;
         private ISelectionPanel _panel;
         private int _counter = 0;
         private Font _fnRegular = new Font("Microsoft Sans Serif", 9, FontStyle.Regular);
@@ -71,56 +70,30 @@ namespace VbeComponents.Business.Export.View
 
         public IEnumerable<Business.Component>Items
         {
-            get { return _componenets; }
+            get { return _components; }
             set
             {
-                tw.Nodes.Clear();
-                _counter = 0;
-                _componenets = value;
-
-                if (_componenets == null)
+                try
                 {
-                    _panel.Nodes = null;
-                    return;
+                    tw.Nodes.Clear();
+                    _counter = 0;
+                    _components = value;
+
+                    if (_components == null)
+                    {
+                        _panel.Nodes = null;
+                        return;
+                    }
+
+                    _panel.ProjectComponets = _components;
+                    _counter = TreeViewHelper.AddComponents(tw, _components);
+                    lblItems.Text = string.Format(strings.NumberOfComponentsPlusSelected, _counter, _counter);
+                    Business.TreeViewHelper.CheckAllNodes(tw, null);
+                    _panel.Nodes = tw.Nodes;
                 }
-
-                _panel.ProjectComponets =  _componenets;
-                var vbComponents =  GetComponnets(vbext_ComponentType.vbext_ct_StdModule);
-                AddComponent(vbComponents, "Modules", "module");
-
-                vbComponents = GetComponnets(vbext_ComponentType.vbext_ct_MSForm);
-                AddComponent(vbComponents, "Forms", "form");
-                
-                vbComponents = GetComponnets(vbext_ComponentType.vbext_ct_ClassModule);
-                AddComponent(vbComponents, "Classes", "class");
-
-                vbComponents = GetComponnets(vbext_ComponentType.vbext_ct_Document);
-                AddComponent(vbComponents, "Documents", "document");
-                                
-                lblItems.Text = string.Format(strings.NumberOfComponentsPlusSelected, _counter, _counter);
-                tw.ExpandAll();
-                Business.TreeViewHelper.CheckAllNodes(tw, null);
-                _panel.Nodes = tw.Nodes;                
-            }
-        }
-
-        private Business.Component[] GetComponnets(vbext_ComponentType componentType)
-        {
-            var component = _componenets.Where(x => x.Type == componentType);
-            var vbComponents = component as Business.Component[] ?? component.ToArray();
-            return vbComponents;
-        }
-
-        private void AddComponent(Business.Component[] items, string nodeText, string imageKey)
-        {
-            if (items.Any())
-            {
-                var parentNode = tw.Nodes.Add(key: nodeText, text: string.Format("{0} ({1})", nodeText, items.Count()), imageKey: imageKey);
-                foreach (Business.Component item in items)
+                catch (Exception ex)
                 {
-                    TreeNode nd=  parentNode.Nodes.Add(key: item.Name, text: item.Name, imageKey: imageKey);
-                    nd.Tag = item;
-                    _counter += 1;
+                    MessageBox.Show(ex.Message, strings.ExportFormMessageCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -130,11 +103,7 @@ namespace VbeComponents.Business.Export.View
             get
             {
                 return Business.TreeViewHelper.GetCheckedNodes(tw, null);
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            }            
         }
 
         public DialogResult ShowView() { return this.ShowDialog();}
@@ -153,36 +122,71 @@ namespace VbeComponents.Business.Export.View
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            if (!SelectedItems.Any())
+            try
             {
-                MessageBox.Show(strings.ExportNoItemSelected, strings.ExportFormMessageCaption, MessageBoxButtons.OK,
-                    MessageBoxIcon.Exclamation);
-                return;
-            }
-            
-            ExportEventArgs args = new ExportEventArgs() { ProjectName = txtProjectName.Text, Path = txtExportPath.Text};
-            if (PathValidating != null) PathValidating(this, args);
-            if (!args.Cancel)
-            {
-                MessageBox.Show(strings.PathIsNotValid, strings.ExportFormMessageCaption, MessageBoxButtons.OK,
-                    MessageBoxIcon.Exclamation);
-                return;
-            }
+                if (!SelectedItems.Any())
+                {
+                    MessageBox.Show(strings.ExportNoItemSelected, strings.ExportFormMessageCaption, MessageBoxButtons.OK,
+                        MessageBoxIcon.Exclamation);
+                    return;
+                }
 
-            int numofChecked = SelectedItems.Count();
-            string confirmMessage = string.Format(strings.ExportConfirmation, 
-                numofChecked,  numofChecked == 1 ? strings.Item :  strings.Items );
-            DialogResult answer =  MessageBox.Show(
-                confirmMessage, strings.ExportFormMessageCaption, MessageBoxButtons.YesNo, 
-                MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            if (answer == DialogResult.No) return;
-            
-            args = new ExportEventArgs() { ProjectName = txtProjectName.Text, 
-                Path = txtExportPath.Text, 
-                SelectedComponents = SelectedItems};
-            if (ExportRequestedRaised != null) ExportRequestedRaised(this, args);
-            if (args.Cancel) return;
-            this.Close();
+                ExportEventArgs args = new ExportEventArgs() { ProjectName = txtProjectName.Text, Path = txtExportPath.Text };
+                if (PathValidating != null) PathValidating(this, args);
+                if (!args.Cancel)
+                {
+                    MessageBox.Show(strings.PathIsNotValid, strings.ExportFormMessageCaption, MessageBoxButtons.OK,
+                        MessageBoxIcon.Exclamation);
+                    return;
+                }
+
+                int numofChecked = SelectedItems.Count();
+                string confirmMessage = string.Format(strings.ExportConfirmation,
+                    numofChecked, numofChecked == 1 ? strings.Item : strings.Items);
+                DialogResult answer = MessageBox.Show(
+                    confirmMessage, strings.ExportFormMessageCaption, MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+                if (answer == DialogResult.No) return;
+
+                args = new ExportEventArgs()
+                {
+                    ProjectName = txtProjectName.Text,
+                    Path = txtExportPath.Text,
+                    SelectedComponents = SelectedItems
+                };
+                if (ExportRequestedRaised != null) ExportRequestedRaised(this, args);
+                if (args.Cancel) return;
+                MessageBox.Show(string.Format(strings.SuccessfullyExported, numofChecked), 
+                    strings.ExportFormMessageCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, strings.ExportFormMessageCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void tw_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            if (e.Action == TreeViewAction.Unknown) return;
+
+            if (e.Node.Parent == null)
+            {
+                TreeViewHelper.ChangeStateOfChildNodes(e.Node, e.Node.Checked);
+            }
+            else
+            {
+                if (!e.Node.Checked)
+                {
+                    e.Node.Parent.Checked = false;
+                }
+                else
+                {                    
+                    bool allChildernChecked = TreeViewHelper.IsAllChildernChecked(e.Node.Parent);
+                    if (allChildernChecked) e.Node.Parent.Checked = true;
+                }
+            }
+            lblItems.Text = string.Format(strings.NumberOfComponentsPlusSelected, _counter, SelectedItems.Count());            
         }
         
     }

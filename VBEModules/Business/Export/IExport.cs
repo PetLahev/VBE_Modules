@@ -23,7 +23,7 @@ namespace VbeComponents.Business.Export
         IEnumerable<Business.Component> Items { get; set; }
 
         /// <summary>Sets/Gets items that are select for export </summary>
-        IEnumerable<Business.Component> SelectedItems { get; set; }
+        IEnumerable<Business.Component> SelectedItems { get; }
 
         /// <summary>Shows up the view and returns how the view was closed</summary>
         DialogResult ShowView();

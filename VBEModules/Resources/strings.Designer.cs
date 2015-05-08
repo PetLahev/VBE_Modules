@@ -304,6 +304,15 @@ namespace VbeComponents.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Successfully exported {0} components..
+        /// </summary>
+        internal static string SuccessfullyExported {
+            get {
+                return ResourceManager.GetString("SuccessfullyExported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This will not happen without big influence from RubberDuck VBE add-in, MZ-Tools VBE add-in and GitHub. 
         ///Thank YOU guys!.
         /// </summary>

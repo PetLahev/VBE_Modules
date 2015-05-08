@@ -33,7 +33,13 @@ namespace VbeComponents.Business.Import.Views
             tw.ImageList = this.imageList1;
 
             _panel = this.selectionPanel1;
+            _panel.SelectionChanged += new EventHandler<SelectionEventArgs>(_panel_SelectionChanged);
             cboProjects.Text = strings.ImportAddFolder;
+        }
+
+        void _panel_SelectionChanged(object sender, SelectionEventArgs e)
+        {
+            lblItems.Text = string.Format(strings.NumberOfComponentsPlusSelected, _counter, SelectedItems.Count());            
         }
 
 #region Drawing
@@ -126,34 +132,9 @@ namespace VbeComponents.Business.Import.Views
             }
         }
 
-        public IEnumerable<Component> Items
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public IEnumerable<Component> SelectedItems
         {
-            get
-            {
-                var checkedNodes = tw.Nodes
-                                .OfType<TreeNode>()
-                                .SelectMany(x => GetNodeAndChildren(x))
-                                .Where(x => x.Checked && x.Parent != null)
-                                .Select(x => x.Tag as Component)
-                                .ToArray();
-                return checkedNodes;
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return Business.TreeViewHelper.GetCheckedNodes(tw, null); }       
         }
 
         public DialogResult ShowView()
@@ -193,73 +174,21 @@ namespace VbeComponents.Business.Import.Views
         }
 
         private void AddComponent(IEnumerable<Component> components )        
-        {
+        {            
             tw.Nodes.Clear();
-            _counter = 0;
+            _counter = 0;            
+            if (components == null)
+            {
+                _panel.Nodes = null;
+                return;
+            }
 
-            var vbComponents = GetComponnets(vbext_ComponentType.vbext_ct_StdModule, components);
-            AddComponent(vbComponents, "Modules", "module");
-
-            vbComponents = GetComponnets(vbext_ComponentType.vbext_ct_MSForm, components);
-            AddComponent(vbComponents, "Forms", "form");
-
-            vbComponents = GetComponnets(vbext_ComponentType.vbext_ct_ClassModule, components);
-            AddComponent(vbComponents, "Classes", "class");
-
-            CheckAllNodes(tw.Nodes);
+            _panel.ProjectComponets = components;
+            _counter = TreeViewHelper.AddComponents(tw, components);
+                        
             lblItems.Text = string.Format(strings.NumberOfComponentsPlusSelected, _counter, _counter);
-            tw.ExpandAll();
-        }
-
-        private Component[] GetComponnets(vbext_ComponentType componentType, IEnumerable<Component> comps)
-        {
-            var component = comps.Where(x => x.Type == componentType);
-            var vbComponents = component as Component[] ?? component.ToArray();
-            return vbComponents;
-        }
-
-        private void AddComponent(Component[] items, string nodeText, string imageKey)
-        {
-            if (items.Any())
-            {
-                var parentNode = tw.Nodes.Add(key: nodeText, 
-                    text: string.Format("{0} ({1})", nodeText, items.Count()), 
-                    imageKey: imageKey);
-                
-                foreach (Component item in items)
-                {
-                    TreeNode nd = parentNode.Nodes.Add(key: item.Name, text: item.Name, imageKey: imageKey);
-                    nd.Tag = item;
-                    _counter += 1;
-                }
-            }
-        }
-
-        private void CheckAllNodes(TreeNodeCollection nodes)
-        {
-            foreach (TreeNode node in nodes)
-            {
-                node.Checked = true;
-                CheckChildren(node, true);
-            }
-        }
-
-        private void UncheckAllNodes(TreeNodeCollection nodes)
-        {
-            foreach (TreeNode node in nodes)
-            {
-                node.Checked = false;
-                CheckChildren(node, false);
-            }
-        }
-
-        private void CheckChildren(TreeNode rootNode, bool isChecked)
-        {
-            foreach (TreeNode node in rootNode.Nodes)
-            {
-                CheckChildren(node, isChecked);
-                node.Checked = isChecked;
-            }
+            Business.TreeViewHelper.CheckAllNodes(tw, null);
+            _panel.Nodes = tw.Nodes;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -269,39 +198,63 @@ namespace VbeComponents.Business.Import.Views
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-            if (!SelectedItems.Any())
+            try
             {
-                MessageBox.Show(strings.ImportNoItemSelected, 
-                    strings.ImportFormMessageCaption, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
+                if (!SelectedItems.Any())
+                {
+                    MessageBox.Show(strings.ImportNoItemSelected,
+                        strings.ImportFormMessageCaption, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
+                int numofChecked = SelectedItems.Count();
+                string confirmMessage = string.Format(strings.ExportConfirmation,
+                    numofChecked, numofChecked == 1 ? strings.Item : strings.Items);
+
+                DialogResult answer = MessageBox.Show(
+                    confirmMessage,
+                    strings.ImportFormMessageCaption,
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+                if (answer == DialogResult.No) return;
+
+                ImportEventArgs args = new ImportEventArgs()
+                {
+                    ProjectName = txtActiveProject.Text,
+                    Override = chbOverride.Checked,
+                    SelectedComponents = SelectedItems
+                };
+                if (ImportRequestedRaised != null) ImportRequestedRaised(this, args);
+                if (args.Cancel) return;
+                this.Close();
             }
-
-            int numofChecked = SelectedItems.Count();
-            string confirmMessage = string.Format(strings.ExportConfirmation,
-                numofChecked, numofChecked == 1 ? strings.Item : strings.Items);
-
-            DialogResult answer = MessageBox.Show(
-                confirmMessage,
-                strings.ImportFormMessageCaption,
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            if (answer == DialogResult.No) return;
-
-            ImportEventArgs args = new ImportEventArgs()
+            catch (Exception ex)
             {
-                ProjectName = txtActiveProject.Text,
-                Override = chbOverride.Checked,
-                SelectedComponents = SelectedItems
-            };
-            if (ImportRequestedRaised != null) ImportRequestedRaised(this, args);
-            if (args.Cancel) return;
-            this.Close();
+                MessageBox.Show(ex.Message, strings.ExportFormMessageCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }            
         }
-        
-        IEnumerable<TreeNode> GetNodeAndChildren(TreeNode node)
+             
+        private void tw_AfterCheck(object sender, TreeViewEventArgs e)
         {
-            return new[] { node }.Concat(node.Nodes
-                                            .OfType<TreeNode>()
-                                            .SelectMany(x => GetNodeAndChildren(x)));
+            if (e.Action == TreeViewAction.Unknown) return;
+
+            if (e.Node.Parent == null)
+            {
+                TreeViewHelper.ChangeStateOfChildNodes(e.Node, e.Node.Checked);
+            }
+            else
+            {
+                if (!e.Node.Checked)
+                {
+                    e.Node.Parent.Checked = false;
+                }
+                else
+                {
+                    bool allChildernChecked = TreeViewHelper.IsAllChildernChecked(e.Node.Parent);
+                    if (allChildernChecked) e.Node.Parent.Checked = true;
+                }
+            }
+            lblItems.Text = string.Format(strings.NumberOfComponentsPlusSelected, _counter, SelectedItems.Count());
         }
+       
     }
 }

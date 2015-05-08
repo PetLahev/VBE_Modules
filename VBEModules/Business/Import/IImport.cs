@@ -15,11 +15,8 @@ namespace VbeComponents.Business.Import
         /// <summary>Sets/Gets a selected project on a view</summary>
         Project SelectedProject { get; set; }
 
-        /// <summary>Sets/Gets all available items (classes, modules, forms) that can be imported </summary>
-        IEnumerable<Component> Items { get; set; }
-
-        /// <summary>Sets/Gets items that are select for import </summary>
-        IEnumerable<Component> SelectedItems { get; set; }
+        /// <summary>Gets items that are select for import </summary>
+        IEnumerable<Component> SelectedItems { get; }
 
         /// <summary>Shows up the view and returns how the view was closed</summary>
         DialogResult ShowView();
