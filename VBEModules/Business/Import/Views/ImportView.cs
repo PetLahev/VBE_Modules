@@ -46,39 +46,51 @@ namespace VbeComponents.Business.Import.Views
 
         private void cboProjects_DrawItem(object sender, DrawItemEventArgs e)
         {
-            Font defaultFont = cboProjects.Font;
-            FontFamily family = cboProjects.Font.FontFamily;
+            try
+            {            
+                Font defaultFont = cboProjects.Font;
+                FontFamily family = cboProjects.Font.FontFamily;
 
-            Rectangle rectangle = new Rectangle(0, e.Bounds.Top + 2,
-                e.Bounds.Height, e.Bounds.Height - 4);
+                Rectangle rectangle = new Rectangle(0, e.Bounds.Top + 2,
+                    e.Bounds.Height, e.Bounds.Height - 4);
 
-            if (e.Index == -1)
-            {
-                Font fn = new Font(family, defaultFont.Size, FontStyle.Italic);
-                e.Graphics.DrawString(strings.ImportAddFolder, fn, Brushes.Gray,
-                    new RectangleF(e.Bounds.X , e.Bounds.Y, e.Bounds.Width, e.Bounds.Height));
-            }
-            else
-            {
-                Font fn = new Font(family, defaultFont.Size, FontStyle.Regular);
-                Project project = (Project) cboProjects.Items[e.Index];
-                e.Graphics.DrawString(project.Name, fn, Brushes.Black,
-                    new RectangleF(e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height));
-                
-                var size = e.Graphics.MeasureString(project.Name, fn);
-                size.Width += 15;
-                Font fn1 = new Font(family, defaultFont.Size, FontStyle.Italic);
-                if (project.Validating)
+                if (e.Index == -1)
                 {
-                    e.Graphics.DrawString(strings.ProjectValidating, fn1, Brushes.Gray,
-                        new RectangleF(e.Bounds.X + size.Width, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height));
+                    Font fn = new Font(family, defaultFont.Size, FontStyle.Italic);
+                    e.Graphics.DrawString(strings.ImportAddFolder, fn, Brushes.Gray,
+                        new RectangleF(e.Bounds.X , e.Bounds.Y, e.Bounds.Width, e.Bounds.Height));
                 }
                 else
                 {
-                    e.Graphics.DrawString(string.Format(strings.ProjectValidated, project.Components.Count()), fn1, Brushes.Gray,
-                        new RectangleF(e.Bounds.X + size.Width, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height));
+                    Font fn = new Font(family, defaultFont.Size, FontStyle.Regular);
+                    Project project = (Project) cboProjects.Items[e.Index];
+                    e.Graphics.DrawString(project.Name, fn, Brushes.Black,
+                        new RectangleF(e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height));
+                
+                    var size = e.Graphics.MeasureString(project.Name, fn);
+                    size.Width += 15;
+                    Font fn1 = new Font(family, defaultFont.Size, FontStyle.Italic);
+                    if (project.Validating)
+                    {
+                        e.Graphics.DrawString(strings.ProjectValidating, fn1, Brushes.Gray,
+                            new RectangleF(e.Bounds.X + size.Width, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height));
+                    }
+                    else
+                    {
+                        if (project.Valid)
+                        {
+                            e.Graphics.DrawString(string.Format(strings.ProjectValidated, project.Components.Count()), fn1, Brushes.Gray,
+                                new RectangleF(e.Bounds.X + size.Width, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height));
+                        }
+                        else
+                        {
+                            e.Graphics.DrawString(strings.ProjectInvalid,  fn1, Brushes.Gray,
+                                new RectangleF(e.Bounds.X + size.Width, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height));
+                        }
+                    }            
                 }
             }
+            finally{} // swallow any error here            
         }
 
 #endregion

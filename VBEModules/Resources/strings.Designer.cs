@@ -276,6 +276,15 @@ namespace VbeComponents.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to INVALID either path or components not valid.
+        /// </summary>
+        internal static string ProjectInvalid {
+            get {
+                return ResourceManager.GetString("ProjectInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (valid, {0} components).
         /// </summary>
         internal static string ProjectValidated {

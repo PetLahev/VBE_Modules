@@ -209,6 +209,9 @@ Are you sure?</value>
     <value>The given path is not valid!
 Please correct.</value>
   </data>
+  <data name="ProjectInvalid" xml:space="preserve">
+    <value>INVALID either path or components not valid</value>
+  </data>
   <data name="ProjectValidated" xml:space="preserve">
     <value>(valid, {0} components)</value>
     <comment>The argument is integer</comment>

@@ -68,7 +68,7 @@
             this.tw.Name = "tw";
             this.tw.Size = new System.Drawing.Size(258, 398);
             this.tw.TabIndex = 1;
-            this.tw.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tw_AfterCheck);            
+            this.tw.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tw_AfterCheck);
             // 
             // lblItems
             // 
@@ -237,6 +237,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(686, 491);
             this.Name = "ImportView";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Import Components";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

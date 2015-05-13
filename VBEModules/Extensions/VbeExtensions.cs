@@ -49,6 +49,12 @@ namespace VbeComponents.Extensions
             return vbComps.ToList().ConvertAll(x => new Business.Component(x));
         }
 
+        /// <summary>
+        /// Checks if given component exists, if so, will remove it from the project
+        /// If the component is document type, will just clear all lines
+        /// </summary>
+        /// <param name="vbe"></param>
+        /// <param name="componentName">name of the component to be removed</param>
         public static void RemoveComponent(this VBE vbe, string componentName)
         {
             if (string.IsNullOrWhiteSpace(componentName)) return;
@@ -63,8 +69,13 @@ namespace VbeComponents.Extensions
 
             if (component.Type != vbext_ComponentType.vbext_ct_Document)
                 vbe.ActiveVBProject.VBComponents.Remove(component);
-            //else
-                // Todo: Clear all instead of remove the component 
+            else
+            {
+                if (component.CodeModule.CountOfLines > 0)
+                {
+                    component.CodeModule.DeleteLines(1, component.CodeModule.CountOfLines);
+                }
+            }                
         }
 
         /// <summary>
