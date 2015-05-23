@@ -16,15 +16,21 @@ namespace VbeComponents.Extensions
         /// <param name="projectName"></param>
         /// <param name="componentName"></param>
         /// <returns></returns>
-        public static IEnumerable<CodeModule> FindCodeModules(this VBE vbe, string projectName, string componentName)
+        public static IEnumerable<CodeModule> FindCodeModules(this VBE vbe, string componentName)
         {
             var matches = 
-                vbe.VBProjects.Cast<VBProject>()
-                              .Where(project => project.Name == projectName)
-                              .SelectMany(project => project.VBComponents.Cast<VBComponent>()
-                                                                         .Where(component => component.Name == componentName))
+                vbe.ActiveVBProject.VBComponents.Cast<VBComponent>()                              
+                              .Where(component => component.Name == componentName)
                               .Select(component => component.CodeModule);
             return matches;
+        }
+
+        public static bool HasCodeModule(this VBE vbe, string componentName)
+        {
+            var hasAny =
+                vbe.ActiveVBProject.VBComponents.Cast<VBComponent>()
+                              .Any(component => component.Name == componentName);
+            return hasAny;
         }
 
         /// <summary>
@@ -88,20 +94,15 @@ namespace VbeComponents.Extensions
             switch (type)
             {
                 case vbext_ComponentType.vbext_ct_StdModule:
-                    return ".bas";
-                    break;
+                    return ".bas";                    
                 case vbext_ComponentType.vbext_ct_ClassModule:
-                    return ".cls";
-                    break;
+                    return ".cls";                    
                 case vbext_ComponentType.vbext_ct_MSForm:
-                    return ".frm";
-                    break;
+                    return ".frm";                    
                 case vbext_ComponentType.vbext_ct_ActiveXDesigner:
-                    throw new ArgumentOutOfRangeException("type");
-                    break;
+                    throw new ArgumentOutOfRangeException("type");                    
                 case vbext_ComponentType.vbext_ct_Document:
-                    return ".cls";
-                    break;
+                    return ".cls";                    
                 default:
                     throw new ArgumentOutOfRangeException("type");
             }

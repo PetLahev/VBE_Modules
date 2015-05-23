@@ -149,7 +149,7 @@ namespace VbeComponents.Business.Import.Models
 
         /// <summary>
         /// Imports selected components to the active VB project
-        /// Todo: Need to handle type = Document better
+        /// Calls special method for handling document type components
         /// </summary>
         /// <param name="args">arguments with all necessary information from a view</param>
         /// <returns></returns>
@@ -162,7 +162,32 @@ namespace VbeComponents.Business.Import.Models
                 foreach (Component item in args.SelectedComponents)
                 {
                     if (replace) _vbe.RemoveComponent(item.Name);
-                    vbProject.VBComponents.Import(item.FullPath);
+                    if ( !item.FullPath.EndsWith(".cls") || !replace )
+                    {
+                        if (item.FullPath.EndsWith(".frm") || !replace)
+                        {
+                            // forms will not get random name form VBE automatically
+                            // so if we import the same name => exception
+                            if (_vbe.HasCodeModule(item.ToString()))
+                            {
+                                var dupForm = vbProject.VBComponents.Add(vbext_ComponentType.vbext_ct_MSForm);                                
+                                dupForm.Name = string.Format("{0}_{1}", item.ToString(), GetNowAsSafeString() );
+                                dupForm.CodeModule.AddFromFile(item.FullPath);
+                            }
+                            else
+                            {
+                                vbProject.VBComponents.Import(item.FullPath);
+                            }
+                        }
+                        else
+                        {
+                            vbProject.VBComponents.Import(item.FullPath);
+                        }
+                    }                   
+                    else
+                    {
+                        HandleClassType(item);
+                    }
                 }
                 return true;
             }
@@ -171,6 +196,48 @@ namespace VbeComponents.Business.Import.Models
                 MessageBox.Show(ex.Message, strings.ImportFormMessageCaption, MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Handles importing class modules. The imported item can be either a normal class or a document type class (which cannot be determined before)
+        /// It tries to find if the same name exist in the project and if so, will check if the same name is a document type, if so, will insert the code as text
+        /// instead of inserting component. This code is called only if user wants to override existing components
+        /// </summary>
+        /// <param name="item">a component to be imported</param>
+        private void HandleClassType(Component item)
+        {
+            VBProject vbProject = _vbe.ActiveVBProject;
+            IEnumerable<CodeModule> module = _vbe.FindCodeModules(item.ToString());
+            if (module == null || !module.ToArray().Any())
+            {
+                //the component name was not found in the active project, import it standard way
+                vbProject.VBComponents.Import(item.FullPath);
+            }
+            else
+            {
+                if (module.ToArray()[0].Parent.Type == vbext_ComponentType.vbext_ct_ClassModule)
+                {
+                    // the item with the same name is not a document type => was replaced in calling method, we can import standard way
+                    vbProject.VBComponents.Import(item.FullPath);
+                }
+                else
+                {
+                    // here is the interesting part, the imported item has the same name as one of the document type component
+                    // user want's to replace it, which is not possible for that type, so we will copy text of the imported item
+                    // to the module with the same name (its text was removed in calling method)
+                    module.ToArray()[0].AddFromFile(item.FullPath);
+                }
+            }
+        }
+        
+        private string GetNowAsSafeString()
+        {
+            StringBuilder str = new StringBuilder(DateTime.Now.ToString());
+            str.Replace(".", "_");
+            str.Replace("/", "_");
+            str.Replace(" ", "_");
+            str.Replace(":", "_");
+            return str.ToString();
         }
 
         /// <summary>

@@ -62,17 +62,36 @@ namespace VbeComponents.Business
                 switch (ext)
                 {
                     case "bas":
-                        components.Add(new Component() { Name = name, Path = path, Type = vbext_ComponentType.vbext_ct_StdModule } );
+                        components.Add(new Component() { Name = name, Path = path, Type = vbext_ComponentType.vbext_ct_StdModule, Content = GetContent(file) } );
                         break;
                     case "cls":
-                        components.Add(new Component() { Name = name, Path = path, Type = vbext_ComponentType.vbext_ct_ClassModule });
+                        components.Add(new Component() { Name = name, Path = path, Type = vbext_ComponentType.vbext_ct_ClassModule, Content = GetContent(file) });
                         break;
                     case "frm":
-                        components.Add(new Component() { Name = name, Path = path, Type = vbext_ComponentType.vbext_ct_MSForm });
+                        components.Add(new Component() { Name = name, Path = path, Type = vbext_ComponentType.vbext_ct_MSForm, Content = GetContent(file) });
                         break;
                 }    
             }
             return components;
+        }
+
+        /// <summary>
+        /// Gets content of given file
+        /// </summary>
+        /// <param name="fullPath">full path to a component to load content</param>
+        /// <returns>text of the component</returns>
+        private static string GetContent(string fullPath)
+        {
+            StringBuilder str = new StringBuilder();
+            using (StreamReader sr = File.OpenText(fullPath))
+            {
+                string s = String.Empty;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    str.AppendLine(s);
+                }
+            }
+            return str.ToString();
         }
 
     }

@@ -44,7 +44,9 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.chbOverride = new System.Windows.Forms.CheckBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.selectionPanel1 = new VbeComponents.Controls.SelectionPanel();
+            this.txtContent = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,6 +71,7 @@
             this.tw.Size = new System.Drawing.Size(258, 398);
             this.tw.TabIndex = 1;
             this.tw.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tw_AfterCheck);
+            this.tw.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tw_AfterSelect);
             // 
             // lblItems
             // 
@@ -100,9 +103,11 @@
             this.lblSelectedProjectPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSelectedProjectPath.ForeColor = System.Drawing.Color.Gray;
             this.lblSelectedProjectPath.Location = new System.Drawing.Point(75, 64);
+            this.lblSelectedProjectPath.MaximumSize = new System.Drawing.Size(300, 14);
             this.lblSelectedProjectPath.Name = "lblSelectedProjectPath";
             this.lblSelectedProjectPath.Size = new System.Drawing.Size(0, 13);
             this.lblSelectedProjectPath.TabIndex = 12;
+            this.lblSelectedProjectPath.MouseHover += new System.EventHandler(this.lblSelectedProjectPath_MouseHover);
             // 
             // btnBrowse
             // 
@@ -218,6 +223,18 @@
             this.selectionPanel1.Size = new System.Drawing.Size(274, 18);
             this.selectionPanel1.TabIndex = 2;
             // 
+            // txtContent
+            // 
+            this.txtContent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtContent.Location = new System.Drawing.Point(283, 185);
+            this.txtContent.Multiline = true;
+            this.txtContent.Name = "txtContent";
+            this.txtContent.ReadOnly = true;
+            this.txtContent.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtContent.Size = new System.Drawing.Size(375, 188);
+            this.txtContent.TabIndex = 11;
+            // 
             // ImportView
             // 
             this.AcceptButton = this.btnImport;
@@ -226,6 +243,7 @@
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(670, 453);
+            this.Controls.Add(this.txtContent);
             this.Controls.Add(this.chbOverride);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnImport);
@@ -263,5 +281,7 @@
         private System.Windows.Forms.CheckBox chbOverride;
         private System.Windows.Forms.Label lblSelectedProjectPath;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.TextBox txtContent;
     }
 }

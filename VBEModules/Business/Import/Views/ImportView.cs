@@ -178,6 +178,7 @@ namespace VbeComponents.Business.Import.Views
             
             AddComponent(project.Components);
             ComponentsAdded(true);
+            txtContent.Text = null;
         }
 
         private void ComponentsAdded(bool hasItems)
@@ -266,6 +267,33 @@ namespace VbeComponents.Business.Import.Views
                 }
             }
             lblItems.Text = string.Format(strings.NumberOfComponentsPlusSelected, _counter, SelectedItems.Count());
+        }
+
+        private void lblSelectedProjectPath_MouseHover(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(lblSelectedProjectPath.Text))
+                toolTip1.SetToolTip(lblSelectedProjectPath, null);
+            else
+                toolTip1.SetToolTip(lblSelectedProjectPath, lblSelectedProjectPath.Text);
+        }
+
+        private void tw_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e == null || e.Node.Tag == null)
+            {
+                txtContent.Text = null;
+                return;
+            }
+
+            Component component = (Component)e.Node.Tag;
+            if (string.IsNullOrWhiteSpace(component.Content))
+            {
+                txtContent.Text = null;
+            }
+            else
+            {
+                txtContent.Text = component.Content;
+            }
         }
        
     }
