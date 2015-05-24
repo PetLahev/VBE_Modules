@@ -36,6 +36,7 @@ namespace VbeComponents.Business
         /// <summary>Sets/Gets a reference to the actual component </summary>
         public Microsoft.Vbe.Interop._VBComponent VbComponent { get; set; }
 
+        /// <summary>Gets name of the component without extension (if exists)</summary>        
         public override string ToString()
         {
             if (string.IsNullOrWhiteSpace(Name)) return base.ToString();

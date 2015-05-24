@@ -57,6 +57,11 @@
     <Compile Include="Business\Component.cs" />
     <Compile Include="Business\Configurations\ConfigurationBase.cs" />
     <Compile Include="Business\Configurations\ConfigurationXmlFile.cs" />
+    <Compile Include="Business\Import\Models\ComponentFactory.cs" />
+    <Compile Include="Business\Import\Models\IImportType.cs" />
+    <Compile Include="Business\Import\Models\ImportClassorDocument.cs" />
+    <Compile Include="Business\Import\Models\ImportForm.cs" />
+    <Compile Include="Business\Import\Models\ImportModule.cs" />
     <Compile Include="Business\TreeViewHelper.cs" />
     <Compile Include="Controls\ISelectionPanel.cs" />
     <Compile Include="Controls\SelectionPanel.cs">

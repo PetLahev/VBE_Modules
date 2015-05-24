@@ -108,6 +108,15 @@ namespace VbeComponents.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The type &apos;{0}&apos; of the component is not valid or supported..
+        /// </summary>
+        internal static string ComponentNotValid {
+            get {
+                return ResourceManager.GetString("ComponentNotValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The given component type &apos;{0}&apos; cannot be converted!
         ///Handle tjhis type in the calling method..
         /// </summary>
