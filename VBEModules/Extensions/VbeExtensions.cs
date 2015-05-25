@@ -25,6 +25,12 @@ namespace VbeComponents.Extensions
             return matches;
         }
 
+        /// <summary>
+        /// Checks if active project contains a component with given name
+        /// </summary>
+        /// <param name="vbe"></param>
+        /// <param name="componentName">a name of component to check</param>
+        /// <returns></returns>
         public static bool HasCodeModule(this VBE vbe, string componentName)
         {
             var hasAny =
@@ -50,10 +56,30 @@ namespace VbeComponents.Extensions
         /// <returns>collection of all components from the given project</returns>
         public static IEnumerable<Business.Component> GetAsComponents(this VBE vbe)
         {
-
             var vbComps = vbe.ActiveVBProject.VBComponents.Cast<VBComponent>();
-            return vbComps.ToList().ConvertAll(x => new Business.Component(x));
+            var tmp = vbComps.ToList().ConvertAll(x => new Business.Component(x));
+            tmp.ForEach(x => x.Content = GetComponentText(vbe, x.Name));
+            return tmp;
         }
+
+        /// <summary>
+        /// Gets the whole code of given component
+        /// </summary>
+        /// <param name="vbe"></param>
+        /// <param name="componentName">a name of component to get text from</param>
+        /// <returns>code of the component</returns>
+        public static string GetComponentText(this VBE vbe, string componentName)
+        {
+            var module = vbe.ActiveVBProject.VBComponents.Cast<VBComponent>()
+                                 .FirstOrDefault(component => component.Name == componentName);
+            string retVal = null;
+            if (module.CodeModule.CountOfLines > 0)
+            {
+                retVal = module.CodeModule.get_Lines(1, module.CodeModule.CountOfLines);
+            }
+            return retVal;
+        }
+
 
         /// <summary>
         /// Checks if given component exists, if so, will remove it from the project
@@ -79,7 +105,7 @@ namespace VbeComponents.Extensions
             {
                 if (component.CodeModule.CountOfLines > 0)
                 {
-                    component.CodeModule.DeleteLines(1, component.CodeModule.CountOfLines);
+                    component.CodeModule.DeleteLines(1, component.CodeModule.CountOfLines);                    
                 }
             }                
         }

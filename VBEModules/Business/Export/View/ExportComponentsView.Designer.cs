@@ -43,6 +43,8 @@
             this.txtProjectName = new System.Windows.Forms.TextBox();
             this.lblTopBanner = new System.Windows.Forms.Label();
             this.selectionPanel1 = new VbeComponents.Controls.SelectionPanel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.txtContent = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,6 +59,7 @@
             this.tw.Size = new System.Drawing.Size(258, 398);
             this.tw.TabIndex = 0;
             this.tw.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tw_AfterCheck);
+            this.tw.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tw_AfterSelect);
             // 
             // btnExport
             // 
@@ -105,6 +108,7 @@
             this.txtExportPath.Size = new System.Drawing.Size(352, 20);
             this.txtExportPath.TabIndex = 7;
             this.txtExportPath.Text = "Specify  path to export";
+            this.txtExportPath.MouseHover += new System.EventHandler(this.txtExportPath_MouseHover);
             // 
             // btnCancel
             // 
@@ -198,6 +202,19 @@
             this.selectionPanel1.Size = new System.Drawing.Size(258, 18);
             this.selectionPanel1.TabIndex = 1;
             // 
+            // txtContent
+            // 
+            this.txtContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtContent.Location = new System.Drawing.Point(283, 180);
+            this.txtContent.Multiline = true;
+            this.txtContent.Name = "txtContent";
+            this.txtContent.ReadOnly = true;
+            this.txtContent.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtContent.Size = new System.Drawing.Size(375, 192);
+            this.txtContent.TabIndex = 14;
+            // 
             // ExportComponentsView
             // 
             this.AcceptButton = this.btnExport;
@@ -206,6 +223,7 @@
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(670, 451);
+            this.Controls.Add(this.txtContent);
             this.Controls.Add(this.lblTopBanner);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCancel);
@@ -240,5 +258,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtProjectName;
         private System.Windows.Forms.Label lblTopBanner;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.TextBox txtContent;
     }
 }

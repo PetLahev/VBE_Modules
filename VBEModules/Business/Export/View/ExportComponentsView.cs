@@ -188,6 +188,33 @@ namespace VbeComponents.Business.Export.View
             }
             lblItems.Text = string.Format(strings.NumberOfComponentsPlusSelected, _counter, SelectedItems.Count());            
         }
+
+        private void txtExportPath_MouseHover(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtExportPath.Text))
+                toolTip1.SetToolTip(txtExportPath, null);
+            else
+                toolTip1.SetToolTip(txtExportPath, txtExportPath.Text);
+        }
+
+        private void tw_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e == null || e.Node.Tag == null)
+            {
+                txtContent.Text = null;
+                return;
+            }
+
+            Component component = (Component)e.Node.Tag;
+            if (string.IsNullOrWhiteSpace(component.Content))
+            {
+                txtContent.Text = null;
+            }
+            else
+            {
+                txtContent.Text = component.Content;
+            }
+        }
         
     }
 }
