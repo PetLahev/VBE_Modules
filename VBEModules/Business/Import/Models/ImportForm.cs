@@ -25,39 +25,55 @@ namespace VbeComponents.Business.Import.Models
             VBProject vbProject = vbe.ActiveVBProject;
             bool isInProject  = Extensions.VbeExtensions.HasCodeModule(vbe, item.ToString());
                         
-            if (isInProject)
-            {
-                System.Windows.Forms.MessageBox.Show("Could not import this form because it's already exists. Working on it, stay tuned");
-            }
-            else
-            {
-                vbProject.VBComponents.Import(item.FullPath);
-            }
+            if (isInProject) item = CopyAndRename(item);            
+            vbProject.VBComponents.Import(item.FullPath);            
         }
 
+        /// <summary>
+        /// Copies the frm file to temporary location and renames all occurrences of the
+        /// filename (without extension) to a new unique name. 
+        /// Then copies the frx file with the new name to temporary location as well
+        /// </summary>
+        /// <param name="item">a component to be copied</param>
+        /// <returns>newly created component</returns>
         private Component CopyAndRename(Component item)
-        {   
-            string nowString = GetNowAsSafeString();
-            string newName = string.Format("{0}_{1}.frm", item.ToString(), nowString);
-            string frmNewName = Path.Combine(Path.GetTempPath(), newName);
-            string frxNewName = Path.Combine(Path.GetTempPath(), string.Format("{0}_{1}.frx", item.ToString(), nowString)); 
-                        
-            File.Copy(item.FullPath, frmNewName, true);
-            File.Copy(Path.Combine(item.Path, item.ToString() +".frx"), frxNewName, true);
+        {
+            File.Copy(item.FullPath, Path.Combine(Path.GetTempPath(), item.Name), true);
+            
+            string newName = string.Format("{0}_{1}",item.ToString(), GetNowAsSafeString());
+            ReplaceString(Path.Combine(Path.GetTempPath(), item.Name), item.ToString(), newName);
 
-            Component retVal = new Component() { Name = newName, Path = Path.GetTempPath(), Type = item.Type, Content = item.Content };
+            string frxNewName = Path.Combine(Path.GetTempPath(), string.Format("{0}.frx", newName));
+            File.Copy(Path.Combine(item.Path, item.ToString() + ".frx"), frxNewName, true);            
+            
+            Component retVal = new Component() { Name = item.Name, Path = Path.GetTempPath(), Type = item.Type, Content = item.Content };
             return retVal;
         }
-
-
+        
+        /// <summary>Gets date and time in safe string for name </summary>        
         private string GetNowAsSafeString()
         {
-            StringBuilder str = new StringBuilder(DateTime.Now.ToString());
+            StringBuilder str = new StringBuilder(DateTime.Now.ToString("s"));
             str.Replace(".", "_");
             str.Replace("/", "_");
             str.Replace(" ", "_");
             str.Replace(":", "_");
+            str.Replace("-", "_");
             return str.ToString();
+        }
+
+        /// <summary>
+        /// Replaces the given text. The files should be fairly small, 
+        /// probably never more than a few MB so I hope this will not cause any issue
+        /// </summary>
+        /// <param name="frmPath"></param>
+        /// <param name="findText"></param>
+        /// <param name="replaceText"></param>
+        private void ReplaceString(string frmPath, string findText, string replaceText)
+        {
+            string text = File.ReadAllText(frmPath);
+            text = text.Replace(findText, replaceText);
+            File.WriteAllText(frmPath, text);
         }
 
     }
