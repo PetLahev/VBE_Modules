@@ -59,7 +59,7 @@ namespace VbeComponents.Extensions
             var vbComps = vbe.ActiveVBProject.VBComponents.Cast<VBComponent>();
             var tmp = vbComps.ToList().ConvertAll(x => new Business.Component(x));
             tmp.ForEach(x => x.Content = GetComponentText(vbe, x.Name));
-            return tmp;
+            return tmp.ToList().OrderBy(x => x.Name); 
         }
 
         /// <summary>
