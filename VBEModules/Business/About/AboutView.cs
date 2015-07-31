@@ -21,7 +21,7 @@ namespace VbeComponents.Business.About
             InitializeComponent();
             var assembly = Assembly.GetExecutingAssembly();
             var name = assembly.GetName();
-            lblVersion.Text = name.Version.ToString();
+            lblVersion.Text = "1.1.0";  // name.Version.ToString();
             lblDesc.Text = strings.AppDescription;
             lblThanks.Text = strings.ThanksContributtors;
 

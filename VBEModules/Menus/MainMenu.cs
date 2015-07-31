@@ -16,6 +16,7 @@ namespace VbeComponents.Menus
         private CommandBarButton _about;
         private CommandBarButton _export;
         private CommandBarButton _import;
+        private static bool _initialized;
 
         public MainMenu(VBE vbe, AddIn addIn) : base(vbe, addIn)
         {
@@ -23,6 +24,8 @@ namespace VbeComponents.Menus
 
         public void Initialize()
         {
+            if (_initialized) return;
+
             const int windowMenuId = 30009;
             var menuBarControls = IDE.CommandBars[1].Controls;
             var beforeIndex = FindMenuInsertionIndex(menuBarControls, windowMenuId);
@@ -34,6 +37,7 @@ namespace VbeComponents.Menus
             _export = AddButton(menu, "&Export...", true, OnExportClick, Properties.Resources.import_button);
             _import = AddButton(menu, "&Import...", true, OnImportClick ,Properties.Resources.export_button);
             _about = AddButton(menu, "&About...", true, OnAboutClick, Properties.Resources.about_ico);
+            _initialized = true;
         }
 
         private void OnExportClick(CommandBarButton Ctrl, ref bool CancelDefault)
