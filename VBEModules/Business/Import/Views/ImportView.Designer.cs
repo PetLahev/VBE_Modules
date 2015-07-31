@@ -62,9 +62,8 @@
             // 
             // tw
             // 
-            this.tw.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tw.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.tw.CheckBoxes = true;
             this.tw.Location = new System.Drawing.Point(12, 30);
             this.tw.Name = "tw";
@@ -84,7 +83,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.lblSelectedProjectPath);
             this.groupBox1.Controls.Add(this.btnBrowse);
             this.groupBox1.Controls.Add(this.cboProjects);
@@ -111,6 +111,7 @@
             // 
             // btnBrowse
             // 
+            this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBrowse.BackColor = System.Drawing.Color.DimGray;
             this.btnBrowse.FlatAppearance.BorderColor = System.Drawing.SystemColors.ScrollBar;
             this.btnBrowse.FlatAppearance.BorderSize = 2;
@@ -126,6 +127,8 @@
             // 
             // cboProjects
             // 
+            this.cboProjects.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cboProjects.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cboProjects.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboProjects.FormattingEnabled = true;
@@ -147,6 +150,8 @@
             // 
             // txtActiveProject
             // 
+            this.txtActiveProject.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtActiveProject.Location = new System.Drawing.Point(10, 37);
             this.txtActiveProject.Name = "txtActiveProject";
             this.txtActiveProject.ReadOnly = true;
@@ -225,7 +230,8 @@
             // 
             // txtContent
             // 
-            this.txtContent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.txtContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtContent.Location = new System.Drawing.Point(283, 185);
             this.txtContent.Multiline = true;

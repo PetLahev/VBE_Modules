@@ -45,7 +45,9 @@ namespace VbeComponents.Business.Export.Model
                     string fullPath = Path.Combine(args.Path, component.Name + VbeExtensions.GetExtension(component.Type));
                     if (component.Type == vbext_ComponentType.vbext_ct_Document)
                     {
-                        var text = component.CodeModule.get_Lines(1, component.CodeModule.CountOfLines);
+                        string text = "";
+                        if (component.CodeModule.CountOfLines > 0)
+                            text = component.CodeModule.get_Lines(1, component.CodeModule.CountOfLines);
                         File.WriteAllText(fullPath, text);
                     }
                     else
