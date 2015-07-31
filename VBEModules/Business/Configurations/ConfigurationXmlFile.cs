@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using System.Globalization;
 
 namespace VbeComponents.Business.Configurations
 {
@@ -42,6 +43,8 @@ namespace VbeComponents.Business.Configurations
             return nd == null ? null : nd.SelectSingleNode("Path").InnerText;
         }
 
+        /// <summary>Gets all projects from the configuration file </summary>
+        /// <returns></returns>
         public override IList<Project> GetProjects()
         {
             XmlNodeList list =  _doc.SelectNodes(string.Format(".//VBProject"));
@@ -53,12 +56,14 @@ namespace VbeComponents.Business.Configurations
                         new Project()
                         {
                             Name = x.Attributes["name"].Value,
-                            Path = x.SelectSingleNode("Path").InnerText
+                            Path = x.SelectSingleNode("Path").InnerText,                            
+                            LastSaved = ConvertDate(x.SelectSingleNode("LastSavedUTC").InnerText),
+                            Created = ConvertDate(x.SelectSingleNode("CreatedUTC").InnerText)
                         })
                 .ToList();
             return retVal;
         }
-
+        
         /// <summary>
         /// Saves the given data back to a configuration file.
         /// If the project already exists, will change the data, if not, will create a new one
@@ -76,7 +81,8 @@ namespace VbeComponents.Business.Configurations
                 {
                     XmlNode project = GetProject(projectName);
                     project.SelectSingleNode("Path").InnerText = path;
-                    project.SelectSingleNode("LastSavedUTC").InnerText = DateTime.UtcNow.ToString();
+                    project.SelectSingleNode("LastSavedUTC").InnerText = 
+                        DateTime.UtcNow.ToString("g", new CultureInfo("en-US"));
                 }
                 else
                 {
@@ -94,12 +100,12 @@ namespace VbeComponents.Business.Configurations
                     vbProject.AppendChild(projectPath);
 
                     XmlElement created = _doc.CreateElement(String.Empty, "CreatedUTC", string.Empty);
-                    XmlText createdText = _doc.CreateTextNode(DateTime.UtcNow.ToString());
+                    XmlText createdText = _doc.CreateTextNode(DateTime.UtcNow.ToString("g", new CultureInfo("en-US")));
                     created.AppendChild(createdText);
                     vbProject.AppendChild(created);
 
                     XmlElement saved = _doc.CreateElement(String.Empty, "LastSavedUTC", string.Empty);
-                    XmlText savedText = _doc.CreateTextNode(DateTime.UtcNow.ToString());
+                    XmlText savedText = _doc.CreateTextNode(DateTime.UtcNow.ToString("g", new CultureInfo("en-US")));
                     saved.AppendChild(savedText);
                     vbProject.AppendChild(saved);
                 }
@@ -139,6 +145,19 @@ namespace VbeComponents.Business.Configurations
             return retVal;
         }
 
+        /// <summary>
+        /// Gets the lastly saved project from the configuration file
+        /// If not saved yet, returns empty project
+        /// </summary>        
+        public virtual Project GetLastSavedProject()
+        {
+            IList<Project> projects = GetProjects();
+            if (projects == null) return new Project();
+            if (!projects.Any(x => x.LastSaved.HasValue)) return new Project();
+
+            var retVal =  projects.OrderBy(project => project.LastSaved).ToList();
+            return retVal.Last();
+        }
 
         private XmlNode GetProject(string projectName)
         {
@@ -167,6 +186,23 @@ namespace VbeComponents.Business.Configurations
             XmlElement vbProjects = _doc.CreateElement(string.Empty, "VBProjects", string.Empty);
             _doc.AppendChild(vbProjects);
             _doc.Save(GetConfigFullName);
+        }
+
+        private DateTime ConvertDate(string dateAsString)
+        {
+            DateTime parsed;
+            string[] formats = {"M/d/yyyy h:mm:ss tt", "MM/dd/yyyy hh:mm:ss",
+                                "M/d/yyyy h:mm:ss", "M/d/yyyy hh:mm tt", 
+                                "M/d/yyyy hh tt", "M/d/yyyy h:mm", "M/d/yyyy h:mm", 
+                                "MM/dd/yyyy hh:mm", "M/dd/yyyy hh:mm"};
+
+            bool success = DateTime.TryParseExact(dateAsString, 
+                            formats, 
+                            new CultureInfo("en-US"), 
+                            DateTimeStyles.None,  
+                            out parsed);
+            if (!success) parsed = DateTime.MinValue;
+            return parsed;
         }
 
     }

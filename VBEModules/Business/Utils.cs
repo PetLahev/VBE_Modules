@@ -36,9 +36,15 @@ namespace VbeComponents.Business
             return files.Any(x => x.EndsWith(".cls") || x.EndsWith(".bas") || x.EndsWith(".frm"));
         }
 
-        public static string DisplayFolderDialog(bool displayNewFolderButton = true)
+        public static string DisplayFolderDialog(bool displayNewFolderButton = true, 
+                                                 bool useLastSavedFolder = true)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog { ShowNewFolderButton = displayNewFolderButton };
+            if (useLastSavedFolder)
+            {
+                Configurations.ConfigurationXmlFile config = new Configurations.ConfigurationXmlFile();
+                fbd.SelectedPath = config.GetLastSavedProject().Path;
+            }
             DialogResult result = fbd.ShowDialog();
             return result == DialogResult.OK ? fbd.SelectedPath : null;
         }

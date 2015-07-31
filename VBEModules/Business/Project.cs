@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System;
 
 namespace VbeComponents.Business
 {
@@ -11,13 +12,23 @@ namespace VbeComponents.Business
     {
         /// <summary>Sets/Gets path of the project. Must be unique </summary>
         public string Path { get; set; }
+
         /// <summary>Sets/Gets name of the project </summary>
         public string Name { get; set; }
+
+        /// <summary>Sets/Gets the time when the project was created</summary>
+        public DateTime? Created { get; set; }
+
+        /// <summary>Sets/Gets the time when the project was saved, if not saved returns null</summary>
+        public DateTime? LastSaved { get; set; }
+
         /// <summary>Sets/Gets components associated to the project </summary>
         public IEnumerable<Component> Components { get; set; } 
+        
         /// <summary>Sets/Gets a flag if the the project is valid project. 
         /// The path exists and contains at least one VBA component </summary>
         public bool Valid { get; set; }
+        
         /// <summary>Sets/Gets a flag if the validation of the project path is still processing </summary>
         public bool Validating { get; set; }
     }
