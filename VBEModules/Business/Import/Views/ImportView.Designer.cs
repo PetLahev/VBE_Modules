@@ -99,11 +99,12 @@
             // 
             // lblSelectedProjectPath
             // 
+            this.lblSelectedProjectPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSelectedProjectPath.AutoSize = true;
             this.lblSelectedProjectPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSelectedProjectPath.ForeColor = System.Drawing.Color.Gray;
             this.lblSelectedProjectPath.Location = new System.Drawing.Point(75, 64);
-            this.lblSelectedProjectPath.MaximumSize = new System.Drawing.Size(300, 14);
             this.lblSelectedProjectPath.Name = "lblSelectedProjectPath";
             this.lblSelectedProjectPath.Size = new System.Drawing.Size(0, 13);
             this.lblSelectedProjectPath.TabIndex = 12;

@@ -42,9 +42,9 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtProjectName = new System.Windows.Forms.TextBox();
             this.lblTopBanner = new System.Windows.Forms.Label();
-            this.selectionPanel1 = new VbeComponents.Controls.SelectionPanel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.txtContent = new System.Windows.Forms.TextBox();
+            this.selectionPanel1 = new VbeComponents.Controls.SelectionPanel();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -128,6 +128,8 @@
             // 
             // lblPathCaption
             // 
+            this.lblPathCaption.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPathCaption.AutoSize = true;
             this.lblPathCaption.Location = new System.Drawing.Point(10, 65);
             this.lblPathCaption.Name = "lblPathCaption";
@@ -195,14 +197,6 @@
             this.lblTopBanner.Size = new System.Drawing.Size(670, 11);
             this.lblTopBanner.TabIndex = 13;
             // 
-            // selectionPanel1
-            // 
-            this.selectionPanel1.Location = new System.Drawing.Point(12, 12);
-            this.selectionPanel1.Name = "selectionPanel1";
-            this.selectionPanel1.Nodes = null;
-            this.selectionPanel1.Size = new System.Drawing.Size(258, 18);
-            this.selectionPanel1.TabIndex = 1;
-            // 
             // txtContent
             // 
             this.txtContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -215,6 +209,14 @@
             this.txtContent.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtContent.Size = new System.Drawing.Size(375, 192);
             this.txtContent.TabIndex = 14;
+            // 
+            // selectionPanel1
+            // 
+            this.selectionPanel1.Location = new System.Drawing.Point(12, 12);
+            this.selectionPanel1.Name = "selectionPanel1";
+            this.selectionPanel1.Nodes = null;
+            this.selectionPanel1.Size = new System.Drawing.Size(258, 18);
+            this.selectionPanel1.TabIndex = 1;
             // 
             // ExportComponentsView
             // 
